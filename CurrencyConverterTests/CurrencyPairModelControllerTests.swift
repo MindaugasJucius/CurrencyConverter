@@ -53,8 +53,9 @@ class CurrencyPairModelControllerTests: XCTestCase {
                 base: baseCurrency,
                 convertTo: currencyToConvertTo
             )
-            currencyPairModelController.storeCurrencyPair(currencyPair: pairToStore)
-            XCTAssert(currencyPairModelController.storedCurrencyPairs.contains(pairToStore)) 
+            try currencyPairModelController.store(currencyPair: pairToStore)
+            let newlyStoredPairs = try currencyPairModelController.storedCurrencyPairs()
+            XCTAssert(newlyStoredPairs.contains(pairToStore))
         } catch {
             XCTFail("failed to check if pair is stored")
         }

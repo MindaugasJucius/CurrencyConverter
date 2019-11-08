@@ -1,6 +1,6 @@
 import Foundation
 
-struct CurrencyPair: Equatable {
+struct CurrencyPair: Codable, Equatable {
     let baseCurrency: Currency
     let currencyToConvertTo: Currency
     
@@ -22,17 +22,7 @@ class CurrencyPairModelController {
     
     enum CurrencyPairError: Error {
         case equalIdentifiers
-    }
-    
-    var storedCurrencyPairs: [CurrencyPair] {
-        get {
-            let valueForKey = UserDefaults.standard.value(forKey: currencyPairArrayDefaultsKey)
-            guard let stored = valueForKey as? [CurrencyPair] else {
-                return []
-            }
-            
-            return stored
-        }
+        case cantDeserializeCurrencyPairs
     }
     
     func createCurrencyPair(base: Currency, convertTo: Currency) throws -> CurrencyPair {
@@ -43,9 +33,20 @@ class CurrencyPairModelController {
         return CurrencyPair.init(baseCurrency: base, currencyToConvertTo: convertTo)
     }
     
-    func storeCurrencyPair(currencyPair: CurrencyPair) {
-        var currentlyStoredPairs = storedCurrencyPairs
-        currentlyStoredPairs.append(currencyPair)
+    func store(currencyPair: CurrencyPair) throws {
+        var currentPairs = try storedCurrencyPairs()
+        currentPairs.append(currencyPair)
+        let encodedNewPairs = try JSONEncoder.init().encode(currentPairs)
+        UserDefaults.standard.set(encodedNewPairs, forKey: currencyPairArrayDefaultsKey)
     }
     
+    func storedCurrencyPairs() throws -> [CurrencyPair] {
+        let valueForPairArrayKey = UserDefaults.standard.value(forKey: currencyPairArrayDefaultsKey)
+        guard let data = valueForPairArrayKey as? Data else {
+            return []
+        }
+        
+        return try JSONDecoder.init().decode([CurrencyPair].self, from: data)
+    }
+
 }
