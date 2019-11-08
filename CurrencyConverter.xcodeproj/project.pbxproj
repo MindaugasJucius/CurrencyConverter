@@ -15,6 +15,8 @@
 		F45AADF5237596130099F668 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F45AADF3237596130099F668 /* LaunchScreen.storyboard */; };
 		F45AAE00237596130099F668 /* CurrencyConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AADFF237596130099F668 /* CurrencyConverterTests.swift */; };
 		F45AAE0B237596130099F668 /* CurrencyConverterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE0A237596130099F668 /* CurrencyConverterUITests.swift */; };
+		F45AAE19237596D70099F668 /* currencies.json in Resources */ = {isa = PBXBuildFile; fileRef = F45AAE18237596D70099F668 /* currencies.json */; };
+		F45AAE1C237597DA0099F668 /* CurrenciesModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE1B237597DA0099F668 /* CurrenciesModelController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		F45AAE06237596130099F668 /* CurrencyConverterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CurrencyConverterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F45AAE0A237596130099F668 /* CurrencyConverterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConverterUITests.swift; sourceTree = "<group>"; };
 		F45AAE0C237596130099F668 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F45AAE18237596D70099F668 /* currencies.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = currencies.json; sourceTree = "<group>"; };
+		F45AAE1B237597DA0099F668 /* CurrenciesModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesModelController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,9 +106,11 @@
 				F45AADE8237596100099F668 /* AppDelegate.swift */,
 				F45AADEA237596100099F668 /* SceneDelegate.swift */,
 				F45AADEC237596100099F668 /* ViewController.swift */,
+				F45AAE1A237597000099F668 /* Model */,
 				F45AADEE237596100099F668 /* Main.storyboard */,
 				F45AADF1237596130099F668 /* Assets.xcassets */,
 				F45AADF3237596130099F668 /* LaunchScreen.storyboard */,
+				F45AAE18237596D70099F668 /* currencies.json */,
 				F45AADF6237596130099F668 /* Info.plist */,
 			);
 			path = CurrencyConverter;
@@ -126,6 +132,14 @@
 				F45AAE0C237596130099F668 /* Info.plist */,
 			);
 			path = CurrencyConverterUITests;
+			sourceTree = "<group>";
+		};
+		F45AAE1A237597000099F668 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F45AAE1B237597DA0099F668 /* CurrenciesModelController.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,6 +247,7 @@
 			files = (
 				F45AADF5237596130099F668 /* LaunchScreen.storyboard in Resources */,
 				F45AADF2237596130099F668 /* Assets.xcassets in Resources */,
+				F45AAE19237596D70099F668 /* currencies.json in Resources */,
 				F45AADF0237596100099F668 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -260,6 +275,7 @@
 			files = (
 				F45AADED237596100099F668 /* ViewController.swift in Sources */,
 				F45AADE9237596100099F668 /* AppDelegate.swift in Sources */,
+				F45AAE1C237597DA0099F668 /* CurrenciesModelController.swift in Sources */,
 				F45AADEB237596100099F668 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
