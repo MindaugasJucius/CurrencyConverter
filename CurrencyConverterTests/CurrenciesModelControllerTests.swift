@@ -21,7 +21,7 @@ class CurrenciesModelControllerTests: XCTestCase {
         }
     }
 
-    func testPassingCurrencyWithEqualIdentifiersThrowsError() {
+    func testPassingCurrenciesWithEqualIdentifiersThrowsError() {
         let currenciesModelController = CurrenciesModelController()
         do {
             let currency = Currency(identifier: "USD")
@@ -37,14 +37,22 @@ class CurrenciesModelControllerTests: XCTestCase {
         }
     }
     
-    func testCorrectlyCreatesCurrencyPair() {
+    func testConstructedCurrencyPairHasCorrectCurrencies() {
         let currenciesModelController = CurrenciesModelController()
         do {
-            let loadedCurrencies = try currenciesModelController.loadCurrencies()
-            XCTAssert(loadedCurrencies.count != 0)
-        } catch let error {
-            XCTFail(error.localizedDescription)
+            let baseCurrency = Currency(identifier: "USD")
+            let currencyToConvertTo = Currency(identifier: "EUR")
+            let constructedPair = try currenciesModelController.createCurrencyPair(
+                base: baseCurrency,
+                convertTo: currencyToConvertTo
+            )
+            
+            XCTAssert(
+                constructedPair.baseCurrency == baseCurrency &&
+                constructedPair.currencyToConvertTo == currencyToConvertTo
+            )
+        } catch {
+            XCTFail("failed to construct currency pair")
         }
-
     }
 }

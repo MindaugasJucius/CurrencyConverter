@@ -1,6 +1,6 @@
 import Foundation
 
-struct Currency: Codable {
+struct Currency: Codable, Equatable {
     let identifier: String
 }
 
