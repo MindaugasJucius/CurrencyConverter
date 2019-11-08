@@ -3,14 +3,6 @@ import XCTest
 
 class CurrenciesModelControllerTests: XCTestCase {
 
-    override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
     func testCurrenciesLoad() {
         let currenciesModelController = CurrenciesModelController()
         do {
@@ -21,38 +13,4 @@ class CurrenciesModelControllerTests: XCTestCase {
         }
     }
 
-    func testPassingCurrenciesWithEqualIdentifiersThrowsError() {
-        let currenciesModelController = CurrenciesModelController()
-        do {
-            let currency = Currency(identifier: "USD")
-            let badPair = try currenciesModelController.createCurrencyPair(
-                base: currency,
-                convertTo: currency
-            )
-            XCTFail("Created currency pair with equal identifiers: \(badPair.baseCurrency.identifier)")
-        } catch let currencyPairError as CurrenciesModelController.CurrencyPairError {
-            XCTAssert(currencyPairError == .equalIdentifiers)
-        } catch let error {
-            XCTFail("Creating currency with equal identifiers throws wrong error: \(error.localizedDescription)")
-        }
-    }
-    
-    func testConstructedCurrencyPairHasCorrectCurrencies() {
-        let currenciesModelController = CurrenciesModelController()
-        do {
-            let baseCurrency = Currency(identifier: "USD")
-            let currencyToConvertTo = Currency(identifier: "EUR")
-            let constructedPair = try currenciesModelController.createCurrencyPair(
-                base: baseCurrency,
-                convertTo: currencyToConvertTo
-            )
-            
-            XCTAssert(
-                constructedPair.baseCurrency == baseCurrency &&
-                constructedPair.currencyToConvertTo == currencyToConvertTo
-            )
-        } catch {
-            XCTFail("failed to construct currency pair")
-        }
-    }
 }
