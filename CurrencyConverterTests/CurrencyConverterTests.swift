@@ -13,8 +13,11 @@ class CurrencyConverterTests: XCTestCase {
 
     func testCurrenciesLoad() {
         let currenciesModelController = CurrenciesModelController()
-        let loadedCurrencies = currenciesModelController.loadCurrencies()
-        XCTAssert(loadedCurrencies.count != 0)
-
+        do {
+            let loadedCurrencies = try currenciesModelController.loadCurrencies()
+            XCTAssert(loadedCurrencies.count != 0)
+        } catch let error {
+            XCTFail(error.localizedDescription)
+        }
     }
 }
