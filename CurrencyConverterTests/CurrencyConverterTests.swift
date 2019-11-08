@@ -11,7 +11,10 @@ class CurrencyConverterTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testCurrencyPairCreate() {
-        
+    func testCurrenciesLoad() {
+        let currenciesModelController = CurrenciesModelController()
+        let loadedCurrencies = currenciesModelController.loadCurrencies()
+        XCTAssert(loadedCurrencies.count != 0)
+
     }
 }
