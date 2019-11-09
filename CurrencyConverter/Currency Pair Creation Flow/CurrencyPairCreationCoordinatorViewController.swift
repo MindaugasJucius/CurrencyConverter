@@ -32,6 +32,8 @@ class CurrencyPairCreationCoordinatorViewController: UINavigationController {
             currencyRepresentations: currencyPairCreationViewModel.currencyRepresentations()
         )
         
+        baseCurrencySelectionVC.title = NSLocalizedString("select_first_currency", comment: "")
+        
         viewControllers = [baseCurrencySelectionVC]
     }
 

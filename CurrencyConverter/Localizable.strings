@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  CurrencyConverter
+
+  Created by Mindaugas Jucius on 09/11/2019.
+  
+*/
+
+"select_first_currency" = "Select currency";
+"select_conversion_target_currency" = "Select exchange target currency";
