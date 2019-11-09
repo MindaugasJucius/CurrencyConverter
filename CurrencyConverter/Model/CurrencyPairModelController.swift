@@ -3,6 +3,7 @@ import Foundation
 struct CurrencyPair: Codable, Equatable {
     let baseCurrency: Currency
     let currencyToConvertTo: Currency
+    let creationDate: Date
     
     var queryParameter: String {
         return baseCurrency.identifier + currencyToConvertTo.identifier
@@ -10,9 +11,11 @@ struct CurrencyPair: Codable, Equatable {
     
     /// _fileprivate_ forbids creation of _CurrencyPair_ not through _CurrencyPairModelController_
     fileprivate init(baseCurrency: Currency,
-                     currencyToConvertTo: Currency) {
+                     currencyToConvertTo: Currency,
+                     creationDate: Date) {
         self.baseCurrency = baseCurrency
         self.currencyToConvertTo = currencyToConvertTo
+        self.creationDate = creationDate
     }
 
 }
@@ -35,7 +38,9 @@ class CurrencyPairModelController {
             throw CurrencyPairError.equalIdentifiers
         }
         
-        return CurrencyPair.init(baseCurrency: base, currencyToConvertTo: convertTo)
+        return CurrencyPair(baseCurrency: base,
+                            currencyToConvertTo: convertTo,
+                            creationDate: Date())
     }
     
     func store(currencyPair: CurrencyPair) throws {

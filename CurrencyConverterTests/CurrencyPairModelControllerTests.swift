@@ -14,6 +14,10 @@ class CurrencyPairModelControllerTests: XCTestCase {
         currencyPairPersister: CurrencyPairPersistenceController()
     )
     
+    override func setUp() {
+        UserDefaults.standard.set(nil, forKey: "persistedCurrencyPairs")
+    }
+    
     func testPassingCurrenciesWithEqualIdentifiersThrowsError() {
         do {
             let currency = Currency(identifier: "USD")
