@@ -29,7 +29,10 @@ private class MockCurrencyPairModelController: CurrencyPairModelRetrieving {
 }
 
 class CurrencyPairCreationViewModelTests: XCTestCase {
-    
+        
+    private let mockCurrenciesController = MockCurrenciesModelController()
+    private let mockCurrencyPairController = MockCurrencyPairModelController()
+
     private var currencies: [Currency] {
         return [
             Currency(identifier: "EUR"),
@@ -40,15 +43,24 @@ class CurrencyPairCreationViewModelTests: XCTestCase {
     }
 
     func testNoPossiblePairsForCurrencyWithExhaustedSelectionOptions() {
-        let mockCurrenciesController = MockCurrenciesModelController()
-        let mockCurrencyPairController = MockCurrencyPairModelController()
-        
         let viewModel = CurrencyPairCreationViewModel.init(
             currenciesModelController: mockCurrenciesController,
             currencyPairModelController: mockCurrencyPairController
         )
         
-        viewModel.possiblePairs(for: <#T##Currency#>)
+        let currencyToTestAgainstTo = currencies[0]
+
+        let allPossiblePairs = currencies[1...].map {
+            pair(base: currencyToTestAgainstTo, second: $0)
+        }
+        
+        mockCurrencyPairController.pairsToReturn = allPossiblePairs
+        
+        XCTAssertEqual(viewModel.possiblePairs(for: currencyToTestAgainstTo), [])
+    }
+    
+    private func pair(base: Currency, second: Currency) -> CurrencyPair {
+        return CurrencyPair.init(baseCurrency: base, currencyToConvertTo: second, creationDate: Date())
     }
     
 }

@@ -1,11 +1,15 @@
 import Foundation
 
 struct Currency: Codable, Equatable {
+    
     let identifier: String
+
 }
 
 protocol CurrenciesModelControlling {
+    
     func loadCurrencies() throws -> [Currency]
+    
 }
 
 class CurrenciesModelController: CurrenciesModelControlling {
