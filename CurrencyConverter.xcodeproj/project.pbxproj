@@ -22,6 +22,7 @@
 		F45AAE2B2376FCC60099F668 /* CurrencySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE292376FCC60099F668 /* CurrencySelectionViewController.swift */; };
 		F45AAE2C2376FCC60099F668 /* CurrencySelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F45AAE2A2376FCC60099F668 /* CurrencySelectionViewController.xib */; };
 		F45AAE2E2376FCED0099F668 /* CurrencyPairCreationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE2D2376FCED0099F668 /* CurrencyPairCreationViewModel.swift */; };
+		F45AAE3023770D580099F668 /* CurrencyPairCreationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE2F23770D580099F668 /* CurrencyPairCreationViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		F45AAE292376FCC60099F668 /* CurrencySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencySelectionViewController.swift; sourceTree = "<group>"; };
 		F45AAE2A2376FCC60099F668 /* CurrencySelectionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CurrencySelectionViewController.xib; sourceTree = "<group>"; };
 		F45AAE2D2376FCED0099F668 /* CurrencyPairCreationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairCreationViewModel.swift; sourceTree = "<group>"; };
+		F45AAE2F23770D580099F668 /* CurrencyPairCreationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairCreationViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +132,7 @@
 			children = (
 				F45AADFF237596130099F668 /* CurrenciesModelControllerTests.swift */,
 				F45AAE1F2375A7EE0099F668 /* CurrencyPairModelControllerTests.swift */,
+				F45AAE2F23770D580099F668 /* CurrencyPairCreationViewModelTests.swift */,
 				F45AAE01237596130099F668 /* Info.plist */,
 			);
 			path = CurrencyConverterTests;
@@ -166,9 +169,9 @@
 			isa = PBXGroup;
 			children = (
 				F45AAE272376FC9D0099F668 /* CurrencyPairCreationCoordinatorViewController.swift */,
+				F45AAE2D2376FCED0099F668 /* CurrencyPairCreationViewModel.swift */,
 				F45AAE292376FCC60099F668 /* CurrencySelectionViewController.swift */,
 				F45AAE2A2376FCC60099F668 /* CurrencySelectionViewController.xib */,
-				F45AAE2D2376FCED0099F668 /* CurrencyPairCreationViewModel.swift */,
 			);
 			path = "Currency Pair Creation Flow";
 			sourceTree = "<group>";
@@ -321,6 +324,7 @@
 			files = (
 				F45AAE202375A7EE0099F668 /* CurrencyPairModelControllerTests.swift in Sources */,
 				F45AAE00237596130099F668 /* CurrenciesModelControllerTests.swift in Sources */,
+				F45AAE3023770D580099F668 /* CurrencyPairCreationViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

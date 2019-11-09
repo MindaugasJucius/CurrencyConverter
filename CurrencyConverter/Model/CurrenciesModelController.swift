@@ -4,7 +4,11 @@ struct Currency: Codable, Equatable {
     let identifier: String
 }
 
-class CurrenciesModelController {
+protocol CurrenciesModelControlling {
+    func loadCurrencies() throws -> [Currency]
+}
+
+class CurrenciesModelController: CurrenciesModelControlling {
     
     enum CurrenciesLoadError: Error {
         case noResource

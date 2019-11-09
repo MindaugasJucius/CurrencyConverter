@@ -20,7 +20,14 @@ struct CurrencyPair: Codable, Equatable {
 
 }
 
-class CurrencyPairModelController {
+protocol CurrencyPairModelControlling {
+    func constructCurrencyPair(base: Currency, convertTo: Currency) throws -> CurrencyPair
+    func store(currencyPair: CurrencyPair) throws
+    
+    func storedCurrencyPairs() throws -> [CurrencyPair]
+}
+
+class CurrencyPairModelController: CurrencyPairModelControlling {
     
     private let currencyPairPersister: CurrencyPairPersisting
     
