@@ -37,9 +37,43 @@ class CurrencySelectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
+        view.backgroundColor = .systemGroupedBackground
+        configureTableView()
+        applySnapshot()
     }
 
+    private func configureTableView() {
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CurrencyCell")
+        tableView.dataSource = dataSource
+        tableView.backgroundColor = .clear
+        tableView.rowHeight = 65
+    }
+    
+    private func applySnapshot() {
+        var snapshot = NSDiffableDataSourceSnapshot<String, CurrencyRepresentation>.init()
+        snapshot.appendSections([""])
+        snapshot.appendItems(currencyRepresentations)
+        dataSource.apply(snapshot, animatingDifferences: false, completion: nil)
+    }
+        
+}
 
+extension CurrencySelectionViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        guard let currencyRepresentation = dataSource.itemIdentifier(for: indexPath),
+            currencyRepresentation.selectable else {
+            return nil
+        }
+        
+        return indexPath
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let currencyRepresentation = dataSource.itemIdentifier(for: indexPath) else {
+            return
+        }
+        selected(currencyRepresentation)
+    }
+    
 }
