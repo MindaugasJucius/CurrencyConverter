@@ -24,7 +24,7 @@ class CurrencyPairCreationViewModel {
         storedCurrencyPairs = try currencyPairModelController.storedCurrencyPairs()
     }
     
-    func currencyRepresentations() throws -> [CurrencyRepresentation] {
+    func currencyRepresentations() -> [CurrencyRepresentation] {
         return storedCurrencies.map { currency in
             let remainingPairs = currencyRepresentations(for: currency)
             return CurrencyRepresentation.init(selectable: remainingPairs.count != 0, currency: currency)

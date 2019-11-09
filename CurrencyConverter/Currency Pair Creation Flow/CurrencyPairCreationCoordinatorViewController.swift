@@ -9,11 +9,30 @@ import UIKit
 
 class CurrencyPairCreationCoordinatorViewController: UINavigationController {
 
+    private let currencyPairModelController = CurrencyPairModelController(
+        currencyPairPersister: CurrencyPairPersistenceController()
+    )
+    
+    private let currenciesModelController = CurrenciesModelController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        startPairCreationFlow { pair in
+            
+        }
     }
     
+    func startPairCreationFlow(completion: (CurrencyPair) -> ()) {
+        let currencyPairCreationViewModel = CurrencyPairCreationViewModel(
+            currenciesModelController: currenciesModelController,
+            currencyPairModelController: currencyPairModelController
+        )
+        
+        let baseCurrencySelectionVC = CurrencySelectionViewController(
+            currencyRepresentations: currencyPairCreationViewModel.currencyRepresentations()
+        )
+        
+        viewControllers = [baseCurrencySelectionVC]
+    }
 
 }
