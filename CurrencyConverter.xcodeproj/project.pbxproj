@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		F45AADE9237596100099F668 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AADE8237596100099F668 /* AppDelegate.swift */; };
-		F45AADEB237596100099F668 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AADEA237596100099F668 /* SceneDelegate.swift */; };
 		F45AADED237596100099F668 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AADEC237596100099F668 /* ViewController.swift */; };
 		F45AADF0237596100099F668 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F45AADEE237596100099F668 /* Main.storyboard */; };
 		F45AADF2237596130099F668 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F45AADF1237596130099F668 /* Assets.xcassets */; };
@@ -41,7 +40,6 @@
 /* Begin PBXFileReference section */
 		F45AADE5237596100099F668 /* CurrencyConverter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CurrencyConverter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F45AADE8237596100099F668 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F45AADEA237596100099F668 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		F45AADEC237596100099F668 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		F45AADEF237596100099F668 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F45AADF1237596130099F668 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -108,7 +106,6 @@
 			isa = PBXGroup;
 			children = (
 				F45AADE8237596100099F668 /* AppDelegate.swift */,
-				F45AADEA237596100099F668 /* SceneDelegate.swift */,
 				F45AADEC237596100099F668 /* ViewController.swift */,
 				F45AAE1A237597000099F668 /* Model */,
 				F45AADEE237596100099F668 /* Main.storyboard */,
@@ -283,7 +280,6 @@
 				F45AADED237596100099F668 /* ViewController.swift in Sources */,
 				F45AADE9237596100099F668 /* AppDelegate.swift in Sources */,
 				F45AAE1C237597DA0099F668 /* CurrenciesModelController.swift in Sources */,
-				F45AADEB237596100099F668 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
