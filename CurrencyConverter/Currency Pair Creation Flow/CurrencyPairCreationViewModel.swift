@@ -1,8 +1,10 @@
 import Foundation
 
-struct CurrencyRepresentation: Equatable {
+struct CurrencyRepresentation: Equatable, Hashable {
+    
     let selectable: Bool
     let currency: Currency
+    
 }
 
 class CurrencyPairCreationViewModel {
