@@ -4,16 +4,17 @@ struct CurrencyPair: Codable, Equatable {
     let baseCurrency: Currency
     let currencyToConvertTo: Currency
     
+    var queryParameter: String {
+        return baseCurrency.identifier + currencyToConvertTo.identifier
+    }
+    
     /// _fileprivate_ forbids creation of _CurrencyPair_ not through _CurrencyPairModelController_
     fileprivate init(baseCurrency: Currency,
                      currencyToConvertTo: Currency) {
         self.baseCurrency = baseCurrency
         self.currencyToConvertTo = currencyToConvertTo
     }
-    
-    var urlParameter: String {
-        return baseCurrency.identifier + currencyToConvertTo.identifier
-    }
+
 }
 
 class CurrencyPairModelController {
