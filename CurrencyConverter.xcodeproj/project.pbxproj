@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		F45AADE9237596100099F668 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AADE8237596100099F668 /* AppDelegate.swift */; };
 		F45AADED237596100099F668 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AADEC237596100099F668 /* ViewController.swift */; };
-		F45AADF0237596100099F668 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F45AADEE237596100099F668 /* Main.storyboard */; };
 		F45AADF2237596130099F668 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F45AADF1237596130099F668 /* Assets.xcassets */; };
 		F45AADF5237596130099F668 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F45AADF3237596130099F668 /* LaunchScreen.storyboard */; };
 		F45AAE00237596130099F668 /* CurrenciesModelControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AADFF237596130099F668 /* CurrenciesModelControllerTests.swift */; };
@@ -43,7 +42,6 @@
 		F45AADE5237596100099F668 /* CurrencyConverter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CurrencyConverter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F45AADE8237596100099F668 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F45AADEC237596100099F668 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		F45AADEF237596100099F668 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F45AADF1237596130099F668 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F45AADF4237596130099F668 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F45AADF6237596130099F668 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -113,7 +111,6 @@
 				F45AADEC237596100099F668 /* ViewController.swift */,
 				F45AAE232376C2FF0099F668 /* Exchange Rate Service */,
 				F45AAE1A237597000099F668 /* Model */,
-				F45AADEE237596100099F668 /* Main.storyboard */,
 				F45AADF1237596130099F668 /* Assets.xcassets */,
 				F45AADF3237596130099F668 /* LaunchScreen.storyboard */,
 				F45AAE18237596D70099F668 /* currencies.json */,
@@ -265,7 +262,6 @@
 				F45AADF5237596130099F668 /* LaunchScreen.storyboard in Resources */,
 				F45AADF2237596130099F668 /* Assets.xcassets in Resources */,
 				F45AAE19237596D70099F668 /* currencies.json in Resources */,
-				F45AADF0237596100099F668 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,14 +328,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		F45AADEE237596100099F668 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F45AADEF237596100099F668 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		F45AADF3237596130099F668 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
