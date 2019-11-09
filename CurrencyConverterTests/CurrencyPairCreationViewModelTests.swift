@@ -56,7 +56,7 @@ class CurrencyPairCreationViewModelTests: XCTestCase {
         
         mockCurrencyPairController.pairsToReturn = allPossiblePairs
         
-        XCTAssertEqual(viewModel.possiblePairs(for: baseCurrency), [])
+        XCTAssertEqual(viewModel.currencyRepresentations(for: baseCurrency), [])
     }
     
     func testPossiblePairsReturnSelectableForCurrenciesThatAreNotUsed() {
@@ -73,7 +73,7 @@ class CurrencyPairCreationViewModelTests: XCTestCase {
         
         XCTAssertNoThrow(try viewModel.fetchStoredValues())
         
-        let selectableCurrencies = viewModel.possiblePairs(for: baseCurrency).filter { $0.selectable }
+        let selectableCurrencies = viewModel.currencyRepresentations(for: baseCurrency).filter { $0.selectable }
         XCTAssertEqual(selectableCurrencies, [currencyNotIncludedInPairs])
     }
     
@@ -85,7 +85,7 @@ class CurrencyPairCreationViewModelTests: XCTestCase {
         
         XCTAssertNoThrow(try viewModel.fetchStoredValues())
         
-        let possiblePairs = viewModel.possiblePairs(for: baseCurrency)
+        let possiblePairs = viewModel.currencyRepresentations(for: baseCurrency)
         XCTAssertTrue(!possiblePairs.contains(baseCurrencyRepresentation))
         
         var mutatingCurrencies = currencies
@@ -97,7 +97,7 @@ class CurrencyPairCreationViewModelTests: XCTestCase {
     }
     
     private func pair(base: Currency, second: Currency) -> CurrencyPair {
-        return CurrencyPair.init(baseCurrency: base, currencyToConvertTo: second, creationDate: Date())
+        return CurrencyPair.init(baseCurrency: base, conversionTargetCurrency: second, creationDate: Date())
     }
     
 }

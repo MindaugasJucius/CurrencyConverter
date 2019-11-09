@@ -44,7 +44,7 @@ class CurrencyPairModelControllerTests: XCTestCase {
             
             XCTAssert(
                 constructedPair.baseCurrency == baseCurrency &&
-                constructedPair.currencyToConvertTo == currencyToConvertTo
+                constructedPair.conversionTargetCurrency == currencyToConvertTo
             )
         } catch {
             XCTFail("failed to construct currency pair")

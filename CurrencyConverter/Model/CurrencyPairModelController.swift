@@ -3,11 +3,11 @@ import Foundation
 struct CurrencyPair: Codable, Equatable {
     
     let baseCurrency: Currency
-    let currencyToConvertTo: Currency
+    let conversionTargetCurrency: Currency
     let creationDate: Date
     
     var queryParameter: String {
-        return baseCurrency.identifier + currencyToConvertTo.identifier
+        return baseCurrency.identifier + conversionTargetCurrency.identifier
     }
     
 }
@@ -44,7 +44,7 @@ class CurrencyPairModelController: CurrencyPairModelModifying, CurrencyPairModel
         }
         
         return CurrencyPair(baseCurrency: base,
-                            currencyToConvertTo: convertTo,
+                            conversionTargetCurrency: convertTo,
                             creationDate: Date())
     }
     

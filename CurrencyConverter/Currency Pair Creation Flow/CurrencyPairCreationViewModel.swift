@@ -1,7 +1,7 @@
 import Foundation
 
-struct CurrencyRepresentation {
-    let canSelect: Bool
+struct CurrencyRepresentation: Equatable {
+    let selectable: Bool
     let currency: Currency
 }
 
@@ -26,27 +26,31 @@ class CurrencyPairCreationViewModel {
     
     func currencyRepresentations() throws -> [CurrencyRepresentation] {
         return storedCurrencies.map { currency in
-            let remainingPairs = possiblePairs(for: currency)
-            return CurrencyRepresentation.init(canSelect: remainingPairs.count != 0, currency: currency)
+            let remainingPairs = currencyRepresentations(for: currency)
+            return CurrencyRepresentation.init(selectable: remainingPairs.count != 0, currency: currency)
         }
     }
     
-    func possiblePairs(for currency: Currency) -> [Currency] {
-        let allPairsWithMatchingBaseCurrency = storedCurrencyPairs.filter {
-            $0.baseCurrency.identifier == currency.identifier
+    /// Constructs currency representations. Marks currency representation
+    /// as selectable if there's still currencies left to convert to.
+    /// - Parameter currency: Perform current currency pair filter logic against this currency.
+    func currencyRepresentations(for baseCurrency: Currency) -> [CurrencyRepresentation] {
+        let pairsWithMatchingBaseCurrency = storedCurrencyPairs.filter {
+            $0.baseCurrency.identifier == baseCurrency.identifier
         }
         
-        let pairConversionTargetCurrencies = allPairsWithMatchingBaseCurrency.map {
-            $0.currencyToConvertTo
+        let currencyPairConversionTarget = pairsWithMatchingBaseCurrency.map {
+            $0.conversionTargetCurrency
         }
         
-        // Don't present passed in currency as selectable
+        // Never present passed in currency as selectable
         let currenciesWithoutBaseCurrency = storedCurrencies.filter {
-            $0 != currency
+            $0 != baseCurrency
         }
 
-        return currenciesWithoutBaseCurrency.filter { storedCurrency in
-            !pairConversionTargetCurrencies.contains(storedCurrency)
+        return currenciesWithoutBaseCurrency.map { currency in
+            let selectable = !currencyPairConversionTarget.contains(currency)
+            return CurrencyRepresentation(selectable: selectable, currency: currency)
         }
     }
     
