@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		F45AADE9237596100099F668 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AADE8237596100099F668 /* AppDelegate.swift */; };
-		F45AADED237596100099F668 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AADEC237596100099F668 /* ViewController.swift */; };
 		F45AADF2237596130099F668 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F45AADF1237596130099F668 /* Assets.xcassets */; };
 		F45AADF5237596130099F668 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F45AADF3237596130099F668 /* LaunchScreen.storyboard */; };
 		F45AAE00237596130099F668 /* CurrenciesModelControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AADFF237596130099F668 /* CurrenciesModelControllerTests.swift */; };
@@ -19,6 +18,10 @@
 		F45AAE202375A7EE0099F668 /* CurrencyPairModelControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE1F2375A7EE0099F668 /* CurrencyPairModelControllerTests.swift */; };
 		F45AAE222376C0B30099F668 /* CurrencyPairPersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE212376C0B30099F668 /* CurrencyPairPersistenceController.swift */; };
 		F45AAE252376C3F30099F668 /* ExchangeRateRequestPerformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE242376C3F30099F668 /* ExchangeRateRequestPerformer.swift */; };
+		F45AAE282376FC9D0099F668 /* CurrencyPairCreationCoordinatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE272376FC9D0099F668 /* CurrencyPairCreationCoordinatorViewController.swift */; };
+		F45AAE2B2376FCC60099F668 /* CurrencySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE292376FCC60099F668 /* CurrencySelectionViewController.swift */; };
+		F45AAE2C2376FCC60099F668 /* CurrencySelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F45AAE2A2376FCC60099F668 /* CurrencySelectionViewController.xib */; };
+		F45AAE2E2376FCED0099F668 /* CurrencyPairCreationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE2D2376FCED0099F668 /* CurrencyPairCreationViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,7 +44,6 @@
 /* Begin PBXFileReference section */
 		F45AADE5237596100099F668 /* CurrencyConverter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CurrencyConverter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F45AADE8237596100099F668 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F45AADEC237596100099F668 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		F45AADF1237596130099F668 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F45AADF4237596130099F668 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F45AADF6237596130099F668 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -57,6 +59,10 @@
 		F45AAE1F2375A7EE0099F668 /* CurrencyPairModelControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairModelControllerTests.swift; sourceTree = "<group>"; };
 		F45AAE212376C0B30099F668 /* CurrencyPairPersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairPersistenceController.swift; sourceTree = "<group>"; };
 		F45AAE242376C3F30099F668 /* ExchangeRateRequestPerformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateRequestPerformer.swift; sourceTree = "<group>"; };
+		F45AAE272376FC9D0099F668 /* CurrencyPairCreationCoordinatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairCreationCoordinatorViewController.swift; sourceTree = "<group>"; };
+		F45AAE292376FCC60099F668 /* CurrencySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencySelectionViewController.swift; sourceTree = "<group>"; };
+		F45AAE2A2376FCC60099F668 /* CurrencySelectionViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CurrencySelectionViewController.xib; sourceTree = "<group>"; };
+		F45AAE2D2376FCED0099F668 /* CurrencyPairCreationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairCreationViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,7 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				F45AADE8237596100099F668 /* AppDelegate.swift */,
-				F45AADEC237596100099F668 /* ViewController.swift */,
+				F45AAE262376FC280099F668 /* Currency Pair Creation Flow */,
 				F45AAE232376C2FF0099F668 /* Exchange Rate Service */,
 				F45AAE1A237597000099F668 /* Model */,
 				F45AADF1237596130099F668 /* Assets.xcassets */,
@@ -154,6 +160,17 @@
 				F45AAE242376C3F30099F668 /* ExchangeRateRequestPerformer.swift */,
 			);
 			path = "Exchange Rate Service";
+			sourceTree = "<group>";
+		};
+		F45AAE262376FC280099F668 /* Currency Pair Creation Flow */ = {
+			isa = PBXGroup;
+			children = (
+				F45AAE272376FC9D0099F668 /* CurrencyPairCreationCoordinatorViewController.swift */,
+				F45AAE292376FCC60099F668 /* CurrencySelectionViewController.swift */,
+				F45AAE2A2376FCC60099F668 /* CurrencySelectionViewController.xib */,
+				F45AAE2D2376FCED0099F668 /* CurrencyPairCreationViewModel.swift */,
+			);
+			path = "Currency Pair Creation Flow";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,6 +276,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F45AAE2C2376FCC60099F668 /* CurrencySelectionViewController.xib in Resources */,
 				F45AADF5237596130099F668 /* LaunchScreen.storyboard in Resources */,
 				F45AADF2237596130099F668 /* Assets.xcassets in Resources */,
 				F45AAE19237596D70099F668 /* currencies.json in Resources */,
@@ -286,9 +304,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F45AAE2B2376FCC60099F668 /* CurrencySelectionViewController.swift in Sources */,
 				F45AAE1E2375A7770099F668 /* CurrencyPairModelController.swift in Sources */,
+				F45AAE282376FC9D0099F668 /* CurrencyPairCreationCoordinatorViewController.swift in Sources */,
 				F45AAE252376C3F30099F668 /* ExchangeRateRequestPerformer.swift in Sources */,
-				F45AADED237596100099F668 /* ViewController.swift in Sources */,
+				F45AAE2E2376FCED0099F668 /* CurrencyPairCreationViewModel.swift in Sources */,
 				F45AAE222376C0B30099F668 /* CurrencyPairPersistenceController.swift in Sources */,
 				F45AADE9237596100099F668 /* AppDelegate.swift in Sources */,
 				F45AAE1C237597DA0099F668 /* CurrenciesModelController.swift in Sources */,

@@ -48,8 +48,10 @@ class ExchangeRateRequestPerformer: ExchangeRateRequestPerforming {
                     return
                 }
                 
-                let handled = self.handleResponse(data: data, response: response, error: error)
-                completion(handled)
+                let result = self.handleResponse(data: data,
+                                                 response: response,
+                                                 error: error)
+                completion(result)
             }
             
             dataTask?.resume()
