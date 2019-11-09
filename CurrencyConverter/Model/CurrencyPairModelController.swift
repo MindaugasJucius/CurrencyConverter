@@ -1,6 +1,7 @@
 import Foundation
 
 struct CurrencyPair: Codable, Equatable {
+    
     let baseCurrency: Currency
     let currencyToConvertTo: Currency
     let creationDate: Date
@@ -9,25 +10,22 @@ struct CurrencyPair: Codable, Equatable {
         return baseCurrency.identifier + currencyToConvertTo.identifier
     }
     
-    /// _fileprivate_ forbids creation of _CurrencyPair_ not through _CurrencyPairModelController_
-    fileprivate init(baseCurrency: Currency,
-                     currencyToConvertTo: Currency,
-                     creationDate: Date) {
-        self.baseCurrency = baseCurrency
-        self.currencyToConvertTo = currencyToConvertTo
-        self.creationDate = creationDate
-    }
-
 }
 
-protocol CurrencyPairModelControlling {
+protocol CurrencyPairModelModifying {
+
     func constructCurrencyPair(base: Currency, convertTo: Currency) throws -> CurrencyPair
     func store(currencyPair: CurrencyPair) throws
     
-    func storedCurrencyPairs() throws -> [CurrencyPair]
 }
 
-class CurrencyPairModelController: CurrencyPairModelControlling {
+protocol CurrencyPairModelRetrieving {
+
+    func storedCurrencyPairs() throws -> [CurrencyPair]
+
+}
+
+class CurrencyPairModelController: CurrencyPairModelModifying, CurrencyPairModelRetrieving {
     
     private let currencyPairPersister: CurrencyPairPersisting
     
