@@ -10,12 +10,14 @@ import XCTest
 
 class CurrencyPairModelControllerTests: XCTestCase {
 
-    let currencyPairModelController = CurrencyPairModelController()
+    let currencyPairModelController = CurrencyPairModelController(
+        currencyPairPersister: CurrencyPairPersistenceController()
+    )
     
     func testPassingCurrenciesWithEqualIdentifiersThrowsError() {
         do {
             let currency = Currency(identifier: "USD")
-            let badPair = try currencyPairModelController.createCurrencyPair(
+            let badPair = try currencyPairModelController.constructCurrencyPair(
                 base: currency,
                 convertTo: currency
             )
@@ -31,7 +33,7 @@ class CurrencyPairModelControllerTests: XCTestCase {
         do {
             let baseCurrency = Currency(identifier: "USD")
             let currencyToConvertTo = Currency(identifier: "EUR")
-            let constructedPair = try currencyPairModelController.createCurrencyPair(
+            let constructedPair = try currencyPairModelController.constructCurrencyPair(
                 base: baseCurrency,
                 convertTo: currencyToConvertTo
             )
@@ -49,11 +51,13 @@ class CurrencyPairModelControllerTests: XCTestCase {
         do {
             let baseCurrency = Currency(identifier: "USD")
             let currencyToConvertTo = Currency(identifier: "EUR")
-            let pairToStore = try currencyPairModelController.createCurrencyPair(
+            
+            let pairToStore = try currencyPairModelController.constructCurrencyPair(
                 base: baseCurrency,
                 convertTo: currencyToConvertTo
             )
             try currencyPairModelController.store(currencyPair: pairToStore)
+            
             let newlyStoredPairs = try currencyPairModelController.storedCurrencyPairs()
             XCTAssert(newlyStoredPairs.contains(pairToStore))
         } catch {

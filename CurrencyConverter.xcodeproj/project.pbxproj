@@ -18,6 +18,7 @@
 		F45AAE1C237597DA0099F668 /* CurrenciesModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE1B237597DA0099F668 /* CurrenciesModelController.swift */; };
 		F45AAE1E2375A7770099F668 /* CurrencyPairModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE1D2375A7770099F668 /* CurrencyPairModelController.swift */; };
 		F45AAE202375A7EE0099F668 /* CurrencyPairModelControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE1F2375A7EE0099F668 /* CurrencyPairModelControllerTests.swift */; };
+		F45AAE222376C0B30099F668 /* CurrencyPairPersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE212376C0B30099F668 /* CurrencyPairPersistenceController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		F45AAE1B237597DA0099F668 /* CurrenciesModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesModelController.swift; sourceTree = "<group>"; };
 		F45AAE1D2375A7770099F668 /* CurrencyPairModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairModelController.swift; sourceTree = "<group>"; };
 		F45AAE1F2375A7EE0099F668 /* CurrencyPairModelControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairModelControllerTests.swift; sourceTree = "<group>"; };
+		F45AAE212376C0B30099F668 /* CurrencyPairPersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairPersistenceController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +143,7 @@
 			children = (
 				F45AAE1B237597DA0099F668 /* CurrenciesModelController.swift */,
 				F45AAE1D2375A7770099F668 /* CurrencyPairModelController.swift */,
+				F45AAE212376C0B30099F668 /* CurrencyPairPersistenceController.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -278,6 +281,7 @@
 			files = (
 				F45AAE1E2375A7770099F668 /* CurrencyPairModelController.swift in Sources */,
 				F45AADED237596100099F668 /* ViewController.swift in Sources */,
+				F45AAE222376C0B30099F668 /* CurrencyPairPersistenceController.swift in Sources */,
 				F45AADE9237596100099F668 /* AppDelegate.swift in Sources */,
 				F45AAE1C237597DA0099F668 /* CurrenciesModelController.swift in Sources */,
 			);

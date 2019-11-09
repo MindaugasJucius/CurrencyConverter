@@ -18,14 +18,18 @@ struct CurrencyPair: Codable, Equatable {
 
 class CurrencyPairModelController {
     
-    private let currencyPairArrayDefaultsKey = "persistedCurrencyPairs"
+    private let currencyPairPersister: CurrencyPairPersisting
     
     enum CurrencyPairError: Error {
         case equalIdentifiers
         case cantDeserializeCurrencyPairs
     }
     
-    func createCurrencyPair(base: Currency, convertTo: Currency) throws -> CurrencyPair {
+    init(currencyPairPersister: CurrencyPairPersisting) {
+        self.currencyPairPersister = currencyPairPersister
+    }
+    
+    func constructCurrencyPair(base: Currency, convertTo: Currency) throws -> CurrencyPair {
         guard base.identifier != convertTo.identifier else {
             throw CurrencyPairError.equalIdentifiers
         }
@@ -34,19 +38,11 @@ class CurrencyPairModelController {
     }
     
     func store(currencyPair: CurrencyPair) throws {
-        var currentPairs = try storedCurrencyPairs()
-        currentPairs.append(currencyPair)
-        let encodedNewPairs = try JSONEncoder.init().encode(currentPairs)
-        UserDefaults.standard.set(encodedNewPairs, forKey: currencyPairArrayDefaultsKey)
+        try currencyPairPersister.store(currencyPair: currencyPair)
     }
     
     func storedCurrencyPairs() throws -> [CurrencyPair] {
-        let valueForPairArrayKey = UserDefaults.standard.value(forKey: currencyPairArrayDefaultsKey)
-        guard let data = valueForPairArrayKey as? Data else {
-            return []
-        }
-        
-        return try JSONDecoder.init().decode([CurrencyPair].self, from: data)
+        return try currencyPairPersister.storedCurrencyPairs()
     }
 
 }
