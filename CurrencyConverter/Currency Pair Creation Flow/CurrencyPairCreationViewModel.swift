@@ -36,7 +36,18 @@ class CurrencyPairCreationViewModel {
             $0.baseCurrency.identifier == currency.identifier
         }
         
-        return []
+        let pairConversionTargetCurrencies = allPairsWithMatchingBaseCurrency.map {
+            $0.currencyToConvertTo
+        }
+        
+        // Don't present passed in currency as selectable
+        let currenciesWithoutBaseCurrency = storedCurrencies.filter {
+            $0 != currency
+        }
+
+        return currenciesWithoutBaseCurrency.filter { storedCurrency in
+            !pairConversionTargetCurrencies.contains(storedCurrency)
+        }
     }
     
 }

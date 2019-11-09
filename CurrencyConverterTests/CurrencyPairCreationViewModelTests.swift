@@ -32,7 +32,12 @@ class CurrencyPairCreationViewModelTests: XCTestCase {
         
     private let mockCurrenciesController = MockCurrenciesModelController()
     private let mockCurrencyPairController = MockCurrencyPairModelController()
-
+    
+    private lazy var viewModel = CurrencyPairCreationViewModel.init(
+        currenciesModelController: mockCurrenciesController,
+        currencyPairModelController: mockCurrencyPairController
+    )
+    
     private var currencies: [Currency] {
         return [
             Currency(identifier: "EUR"),
@@ -43,20 +48,52 @@ class CurrencyPairCreationViewModelTests: XCTestCase {
     }
 
     func testNoPossiblePairsForCurrencyWithExhaustedSelectionOptions() {
-        let viewModel = CurrencyPairCreationViewModel.init(
-            currenciesModelController: mockCurrenciesController,
-            currencyPairModelController: mockCurrencyPairController
-        )
-        
-        let currencyToTestAgainstTo = currencies[0]
+        let baseCurrency = currencies[0]
 
         let allPossiblePairs = currencies[1...].map {
-            pair(base: currencyToTestAgainstTo, second: $0)
+            pair(base: baseCurrency, second: $0)
         }
         
         mockCurrencyPairController.pairsToReturn = allPossiblePairs
         
-        XCTAssertEqual(viewModel.possiblePairs(for: currencyToTestAgainstTo), [])
+        XCTAssertEqual(viewModel.possiblePairs(for: baseCurrency), [])
+    }
+    
+    func testPossiblePairsReturnSelectableForCurrenciesThatAreNotUsed() {
+        let baseCurrency = currencies[0]
+        let currencyNotIncludedInPairs = CurrencyRepresentation(selectable: true,
+                                                                currency: currencies[1])
+
+        let allButOnePossiblePairs = currencies[2...].map {
+            pair(base: baseCurrency, second: $0)
+        }
+        
+        mockCurrenciesController.currenciesToReturn = currencies
+        mockCurrencyPairController.pairsToReturn = allButOnePossiblePairs
+        
+        XCTAssertNoThrow(try viewModel.fetchStoredValues())
+        
+        let selectableCurrencies = viewModel.possiblePairs(for: baseCurrency).filter { $0.selectable }
+        XCTAssertEqual(selectableCurrencies, [currencyNotIncludedInPairs])
+    }
+    
+    func testPossiblePairsDoesntReturnBaseCurrency() {
+        let baseCurrency = currencies[2]
+        let baseCurrencyRepresentation = CurrencyRepresentation(selectable: false, currency: baseCurrency)
+        mockCurrenciesController.currenciesToReturn = currencies
+        mockCurrencyPairController.pairsToReturn = []
+        
+        XCTAssertNoThrow(try viewModel.fetchStoredValues())
+        
+        let possiblePairs = viewModel.possiblePairs(for: baseCurrency)
+        XCTAssertTrue(!possiblePairs.contains(baseCurrencyRepresentation))
+        
+        var mutatingCurrencies = currencies
+        mutatingCurrencies.remove(at: 2)
+        XCTAssertEqual(possiblePairs, mutatingCurrencies.map {
+                CurrencyRepresentation.init(selectable: true, currency: $0)
+            }
+        )
     }
     
     private func pair(base: Currency, second: Currency) -> CurrencyPair {
