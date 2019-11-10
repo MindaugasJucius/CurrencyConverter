@@ -30,6 +30,8 @@
 		F45AAE422378271E0099F668 /* CurrencyPairsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F45AAE402378271E0099F668 /* CurrencyPairsViewController.xib */; };
 		F45AAE442378278B0099F668 /* CurrencyPairsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE432378278B0099F668 /* CurrencyPairsViewModel.swift */; };
 		F45AAE46237828540099F668 /* CurrencyPairsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE45237828540099F668 /* CurrencyPairsViewModelTests.swift */; };
+		F45AAE4923789AF90099F668 /* AddPairTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE4723789AF90099F668 /* AddPairTableViewCell.swift */; };
+		F45AAE4A23789AF90099F668 /* AddPairTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F45AAE4823789AF90099F668 /* AddPairTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +81,8 @@
 		F45AAE402378271E0099F668 /* CurrencyPairsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CurrencyPairsViewController.xib; sourceTree = "<group>"; };
 		F45AAE432378278B0099F668 /* CurrencyPairsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairsViewModel.swift; sourceTree = "<group>"; };
 		F45AAE45237828540099F668 /* CurrencyPairsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairsViewModelTests.swift; sourceTree = "<group>"; };
+		F45AAE4723789AF90099F668 /* AddPairTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPairTableViewCell.swift; sourceTree = "<group>"; };
+		F45AAE4823789AF90099F668 /* AddPairTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddPairTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +213,8 @@
 				F45AAE3F2378271E0099F668 /* CurrencyPairsViewController.swift */,
 				F45AAE402378271E0099F668 /* CurrencyPairsViewController.xib */,
 				F45AAE432378278B0099F668 /* CurrencyPairsViewModel.swift */,
+				F45AAE4723789AF90099F668 /* AddPairTableViewCell.swift */,
+				F45AAE4823789AF90099F668 /* AddPairTableViewCell.xib */,
 			);
 			path = "Currency Pair Observation";
 			sourceTree = "<group>";
@@ -320,6 +326,7 @@
 				F45AADF5237596130099F668 /* LaunchScreen.storyboard in Resources */,
 				F45AADF2237596130099F668 /* Assets.xcassets in Resources */,
 				F45AAE19237596D70099F668 /* currencies.json in Resources */,
+				F45AAE4A23789AF90099F668 /* AddPairTableViewCell.xib in Resources */,
 				F45AAE422378271E0099F668 /* CurrencyPairsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -355,6 +362,7 @@
 				F45AAE412378271E0099F668 /* CurrencyPairsViewController.swift in Sources */,
 				F45AAE222376C0B30099F668 /* CurrencyPairPersistenceController.swift in Sources */,
 				F45AADE9237596100099F668 /* AppDelegate.swift in Sources */,
+				F45AAE4923789AF90099F668 /* AddPairTableViewCell.swift in Sources */,
 				F45AAE1C237597DA0099F668 /* CurrenciesModelController.swift in Sources */,
 				F45AAE3E237826FA0099F668 /* CurrencyPairObservationCoordinatorViewController.swift in Sources */,
 			);

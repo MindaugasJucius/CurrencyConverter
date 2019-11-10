@@ -8,3 +8,5 @@
 
 "select_conversion_base_currency" = "Exchange from";
 "select_conversion_target_currency" = "Exchange to";
+
+"add_pair" = "Add new currency pair";
