@@ -16,6 +16,7 @@ protocol CurrencyPairModelModifying {
 
     func constructCurrencyPair(base: Currency, convertTo: Currency) throws -> CurrencyPair
     func store(currencyPair: CurrencyPair) throws
+    func delete(currencyPair: CurrencyPair) throws
     
 }
 
@@ -26,7 +27,7 @@ protocol CurrencyPairModelRetrieving {
 }
 
 class CurrencyPairModelController: CurrencyPairModelModifying, CurrencyPairModelRetrieving {
-    
+
     private let currencyPairPersister: CurrencyPairPersisting
     
     enum CurrencyPairError: Error {
@@ -49,6 +50,10 @@ class CurrencyPairModelController: CurrencyPairModelModifying, CurrencyPairModel
     
     func store(currencyPair: CurrencyPair) throws {
         try currencyPairPersister.store(currencyPair: currencyPair)
+    }
+    
+    func delete(currencyPair: CurrencyPair) throws {
+        
     }
     
     func storedCurrencyPairs() throws -> [CurrencyPair] {

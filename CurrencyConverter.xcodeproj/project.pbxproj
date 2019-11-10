@@ -29,6 +29,7 @@
 		F45AAE412378271E0099F668 /* CurrencyPairsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE3F2378271E0099F668 /* CurrencyPairsViewController.swift */; };
 		F45AAE422378271E0099F668 /* CurrencyPairsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F45AAE402378271E0099F668 /* CurrencyPairsViewController.xib */; };
 		F45AAE442378278B0099F668 /* CurrencyPairsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE432378278B0099F668 /* CurrencyPairsViewModel.swift */; };
+		F45AAE46237828540099F668 /* CurrencyPairsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE45237828540099F668 /* CurrencyPairsViewModelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		F45AAE3F2378271E0099F668 /* CurrencyPairsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairsViewController.swift; sourceTree = "<group>"; };
 		F45AAE402378271E0099F668 /* CurrencyPairsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CurrencyPairsViewController.xib; sourceTree = "<group>"; };
 		F45AAE432378278B0099F668 /* CurrencyPairsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairsViewModel.swift; sourceTree = "<group>"; };
+		F45AAE45237828540099F668 /* CurrencyPairsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairsViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +150,7 @@
 				F45AADFF237596130099F668 /* CurrenciesModelControllerTests.swift */,
 				F45AAE1F2375A7EE0099F668 /* CurrencyPairModelControllerTests.swift */,
 				F45AAE2F23770D580099F668 /* CurrencyPairCreationViewModelTests.swift */,
+				F45AAE45237828540099F668 /* CurrencyPairsViewModelTests.swift */,
 				F45AAE01237596130099F668 /* Info.plist */,
 			);
 			path = CurrencyConverterTests;
@@ -364,6 +367,7 @@
 				F45AAE202375A7EE0099F668 /* CurrencyPairModelControllerTests.swift in Sources */,
 				F45AAE00237596130099F668 /* CurrenciesModelControllerTests.swift in Sources */,
 				F45AAE3023770D580099F668 /* CurrencyPairCreationViewModelTests.swift in Sources */,
+				F45AAE46237828540099F668 /* CurrencyPairsViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

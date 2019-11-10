@@ -8,7 +8,7 @@
 import XCTest
 @testable import CurrencyConverter
 
-private class MockCurrenciesModelController: CurrenciesModelControlling {
+class MockCurrenciesModelController: CurrenciesModelControlling {
     
     var currenciesToReturn: [Currency] = []
     
@@ -18,7 +18,7 @@ private class MockCurrenciesModelController: CurrenciesModelControlling {
     
 }
 
-private class MockCurrencyPairModelController: CurrencyPairModelRetrieving {
+class MockCurrencyPairModelRetriever: CurrencyPairModelRetrieving {
 
     var pairsToReturn: [CurrencyPair] = []
     
@@ -28,10 +28,27 @@ private class MockCurrencyPairModelController: CurrencyPairModelRetrieving {
     
 }
 
+class MockCurrencyPairModelModifier: CurrencyPairModelModifying {
+
+    func constructCurrencyPair(base: Currency, convertTo: Currency) throws -> CurrencyPair {
+        fatalError()
+    }
+    
+    func store(currencyPair: CurrencyPair) throws {
+        
+    }
+    
+    func delete(currencyPair: CurrencyPair) throws {
+        
+    }
+
+}
+
+
 class CurrencyPairCreationViewModelTests: XCTestCase {
         
     private let mockCurrenciesController = MockCurrenciesModelController()
-    private let mockCurrencyPairController = MockCurrencyPairModelController()
+    private let mockCurrencyPairController = MockCurrencyPairModelRetriever()
     
     private lazy var viewModel = CurrencyPairCreationViewModel.init(
         currenciesModelController: mockCurrenciesController,
