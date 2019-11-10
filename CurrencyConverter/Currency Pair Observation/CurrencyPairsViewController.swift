@@ -46,9 +46,11 @@ class CurrencyPairsViewController: UIViewController {
     }()
     
     private let viewModel: CurrencyPairsViewModel
+    private let createPair: () -> ()
     
-    init(viewModel: CurrencyPairsViewModel) {
+    init(viewModel: CurrencyPairsViewModel, selectedCreatePair: @autoclosure @escaping () -> ()) {
         self.viewModel = viewModel
+        self.createPair = selectedCreatePair
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -78,7 +80,7 @@ class CurrencyPairsViewController: UIViewController {
                            forCellReuseIdentifier: CurrencyPairsViewController.addPairCompactCellReuseIdentifier)
         
         tableView.dataSource = dataSource
-//        tableView.delegate = self
+        tableView.delegate = self
         tableView.backgroundColor = .clear
         tableView.rowHeight = UITableView.automaticDimension
     }
@@ -101,4 +103,20 @@ class CurrencyPairsViewController: UIViewController {
         dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
     }
 
+}
+
+extension CurrencyPairsViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        guard let sectionItem = dataSource.itemIdentifier(for: indexPath),
+            sectionItem == .compactAddPair || sectionItem == .expandedAddPair else {
+            return nil
+        }
+        return indexPath
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        createPair()
+    }
+    
 }

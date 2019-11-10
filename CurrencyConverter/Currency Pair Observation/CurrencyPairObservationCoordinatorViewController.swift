@@ -9,18 +9,29 @@ import UIKit
 
 class CurrencyPairObservationCoordinatorViewController: UINavigationController {
 
+    private let pairModelController = CurrencyPairModelController(
+        currencyPairPersister: CurrencyPairPersistenceController()
+    )
+    
+    private lazy var pairsViewModel = CurrencyPairsViewModel(
+        pairModelModifier: pairModelController,
+        pairModelRetriever: pairModelController
+    )
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let pairModelController = CurrencyPairModelController(
-            currencyPairPersister: CurrencyPairPersistenceController()
-        )
         
-        let pairsViewModel = CurrencyPairsViewModel(
-            pairModelModifier: pairModelController,
-            pairModelRetriever: pairModelController
-        )
-        
-        viewControllers = [CurrencyPairsViewController(viewModel: pairsViewModel)]
+        viewControllers = [CurrencyPairsViewController(viewModel: pairsViewModel, selectedCreatePair: self.createPair())]
     }
 
+    private func createPair() {
+        let pairCreationCoordinator = CurrencyPairCreationCoordinatorViewController()
+        pairCreationCoordinator.performPairCreationFlow { [unowned self] _ in
+            self.pairsViewModel.pairsChanged()
+            self.dismiss(animated: true, completion: nil)
+        }
+        
+        present(pairCreationCoordinator, animated: true, completion: nil)
+    }
+    
 }
