@@ -1,6 +1,6 @@
 import Foundation
 
-struct CurrencyPair: Codable, Equatable {
+struct CurrencyPair: Codable, Equatable, Hashable {
     
     let baseCurrency: Currency
     let conversionTargetCurrency: Currency

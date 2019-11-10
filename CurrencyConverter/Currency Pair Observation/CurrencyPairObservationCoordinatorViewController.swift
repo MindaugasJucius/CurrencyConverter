@@ -11,7 +11,16 @@ class CurrencyPairObservationCoordinatorViewController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewControllers = [CurrencyPairsViewController()]
+        let pairModelController = CurrencyPairModelController(
+            currencyPairPersister: CurrencyPairPersistenceController()
+        )
+        
+        let pairsViewModel = CurrencyPairsViewModel(
+            pairModelModifier: pairModelController,
+            pairModelRetriever: pairModelController
+        )
+        
+        viewControllers = [CurrencyPairsViewController(viewModel: pairsViewModel)]
     }
 
 }
