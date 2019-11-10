@@ -19,7 +19,10 @@ class CurrencyPairPersistenceController: CurrencyPairPersisting {
     }
     
     func delete(currencyPair: CurrencyPair) throws {
-        
+        var currentPairs = try storedCurrencyPairs()
+        currentPairs.removeAll(where: { $0 == currencyPair })
+        let encodedNewPairs = try JSONEncoder.init().encode(currentPairs)
+        UserDefaults.standard.set(encodedNewPairs, forKey: currencyPairArrayDefaultsKey)
     }
     
     func storedCurrencyPairs() throws -> [CurrencyPair] {

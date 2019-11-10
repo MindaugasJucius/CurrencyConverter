@@ -53,7 +53,7 @@ class CurrencyPairModelController: CurrencyPairModelModifying, CurrencyPairModel
     }
     
     func delete(currencyPair: CurrencyPair) throws {
-        
+        try currencyPairPersister.delete(currencyPair: currencyPair)
     }
     
     func storedCurrencyPairs() throws -> [CurrencyPair] {
