@@ -31,7 +31,6 @@ class CurrencyPairModelController: CurrencyPairModelModifying, CurrencyPairModel
     
     enum CurrencyPairError: Error {
         case equalIdentifiers
-        case cantDeserializeCurrencyPairs
     }
     
     init(currencyPairPersister: CurrencyPairPersisting) {

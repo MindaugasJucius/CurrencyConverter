@@ -4,7 +4,7 @@ class CurrencySelectionViewController: UIViewController {
 
     @IBOutlet private weak var tableView: UITableView!
     
-    private let selected: (CurrencyRepresentation) -> ()
+    private let selected: (Currency) -> ()
     private let currencyRepresentations: [CurrencyRepresentation]
     
     private lazy var dataSource: UITableViewDiffableDataSource<String, CurrencyRepresentation> = {
@@ -25,7 +25,7 @@ class CurrencySelectionViewController: UIViewController {
     }()
     
     init(currencyRepresentations: [CurrencyRepresentation],
-         selected: @escaping (CurrencyRepresentation) -> ()) {
+         selected: @escaping (Currency) -> ()) {
         self.currencyRepresentations = currencyRepresentations
         self.selected = selected
         super.init(nibName: nil, bundle: nil)
@@ -45,6 +45,7 @@ class CurrencySelectionViewController: UIViewController {
     private func configureTableView() {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CurrencyCell")
         tableView.dataSource = dataSource
+        tableView.delegate = self
         tableView.backgroundColor = .clear
         tableView.rowHeight = 65
     }
@@ -73,7 +74,7 @@ extension CurrencySelectionViewController: UITableViewDelegate {
         guard let currencyRepresentation = dataSource.itemIdentifier(for: indexPath) else {
             return
         }
-        selected(currencyRepresentation)
+        selected(currencyRepresentation.currency)
     }
     
 }
