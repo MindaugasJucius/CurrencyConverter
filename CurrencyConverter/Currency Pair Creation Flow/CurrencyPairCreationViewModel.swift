@@ -44,14 +44,12 @@ class CurrencyPairCreationViewModel {
         let currencyPairConversionTarget = pairsWithMatchingBaseCurrency.map {
             $0.conversionTargetCurrency
         }
-        
-        // Never present passed in currency as selectable
-        let currenciesWithoutBaseCurrency = storedCurrencies.filter {
-            $0 != baseCurrency
-        }
 
-        return currenciesWithoutBaseCurrency.map { currency in
-            let selectable = !currencyPairConversionTarget.contains(currency)
+        // Don't present passed in currency as selectable
+        let targetsPlusBase = currencyPairConversionTarget + [baseCurrency]
+
+        return storedCurrencies.map { currency in
+            let selectable = !targetsPlusBase.contains(currency)
             return CurrencyRepresentation(selectable: selectable, currency: currency)
         }
     }
