@@ -26,7 +26,7 @@ class CurrencyPairCreationCoordinatorViewController: UINavigationController {
         super.viewDidLoad()
         navigationBar.prefersLargeTitles = true
     }
-
+    
     func performPairCreationFlow(completion: @escaping (CurrencyPair) -> ()) {
         do {
             try currencyPairCreationViewModel.fetchStoredValues()
@@ -64,6 +64,7 @@ class CurrencyPairCreationCoordinatorViewController: UINavigationController {
             currencyRepresentations: allCurrencies,
             selected: completion
         )
+        baseCurrencySelectionVC.title = NSLocalizedString("select_conversion_base_currency", comment: "")
         pushViewController(baseCurrencySelectionVC, animated: true)
     }
 
@@ -76,6 +77,7 @@ class CurrencyPairCreationCoordinatorViewController: UINavigationController {
                     completion((base, target))
                 }
             )
+            targetCurrencySelectionVC.title = NSLocalizedString("select_conversion_target_currency", comment: "")
             self.pushViewController(targetCurrencySelectionVC, animated: true)
         }
     }
