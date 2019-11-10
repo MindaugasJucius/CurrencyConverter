@@ -4,6 +4,8 @@ class CurrencySelectionViewController: UIViewController {
 
     @IBOutlet private weak var tableView: UITableView!
     
+    private static let cellReuseIdentifier = "CurrencySelectionCell"
+    
     private let selected: (Currency) -> ()
     private let currencyRepresentations: [CurrencyRepresentation]
     
@@ -11,7 +13,10 @@ class CurrencySelectionViewController: UIViewController {
         return UITableViewDiffableDataSource<String, CurrencyRepresentation>(
             tableView: tableView,
             cellProvider: { tableView, indexPath, currencyRepresentation in
-                let cell = tableView.dequeueReusableCell(withIdentifier: "CurrencyCell", for: indexPath)
+                let cell = tableView.dequeueReusableCell(
+                    withIdentifier: CurrencySelectionViewController.cellReuseIdentifier,
+                    for: indexPath
+                )
                 cell.textLabel?.text = currencyRepresentation.currency.identifier
                 cell.textLabel?.font = .systemFont(ofSize: 20, weight: .medium)
                 if !currencyRepresentation.selectable {
@@ -43,7 +48,8 @@ class CurrencySelectionViewController: UIViewController {
     }
 
     private func configureTableView() {
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CurrencyCell")
+        tableView.register(UITableViewCell.self,
+                           forCellReuseIdentifier: CurrencySelectionViewController.cellReuseIdentifier)
         tableView.dataSource = dataSource
         tableView.delegate = self
         tableView.backgroundColor = .clear
