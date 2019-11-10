@@ -24,6 +24,7 @@
 		F45AAE2E2376FCED0099F668 /* CurrencyPairCreationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE2D2376FCED0099F668 /* CurrencyPairCreationViewModel.swift */; };
 		F45AAE3023770D580099F668 /* CurrencyPairCreationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE2F23770D580099F668 /* CurrencyPairCreationViewModelTests.swift */; };
 		F45AAE37237741A90099F668 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F45AAE36237741A90099F668 /* Localizable.strings */; };
+		F45AAE3B237823060099F668 /* UIAlertController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AAE3A237823060099F668 /* UIAlertController+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		F45AAE2F23770D580099F668 /* CurrencyPairCreationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairCreationViewModelTests.swift; sourceTree = "<group>"; };
 		F45AAE35237741820099F668 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F45AAE36237741A90099F668 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		F45AAE3A237823060099F668 /* UIAlertController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 		F45AADE7237596100099F668 /* CurrencyConverter */ = {
 			isa = PBXGroup;
 			children = (
+				F45AAE39237822EA0099F668 /* Extensions */,
 				F45AADE8237596100099F668 /* AppDelegate.swift */,
 				F45AAE262376FC280099F668 /* Currency Pair Creation Flow */,
 				F45AAE232376C2FF0099F668 /* Exchange Rate Service */,
@@ -177,6 +180,14 @@
 				F45AAE2A2376FCC60099F668 /* CurrencySelectionViewController.xib */,
 			);
 			path = "Currency Pair Creation Flow";
+			sourceTree = "<group>";
+		};
+		F45AAE39237822EA0099F668 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F45AAE3A237823060099F668 /* UIAlertController+Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -310,6 +321,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F45AAE3B237823060099F668 /* UIAlertController+Extension.swift in Sources */,
 				F45AAE2B2376FCC60099F668 /* CurrencySelectionViewController.swift in Sources */,
 				F45AAE1E2375A7770099F668 /* CurrencyPairModelController.swift in Sources */,
 				F45AAE282376FC9D0099F668 /* CurrencyPairCreationCoordinatorViewController.swift in Sources */,

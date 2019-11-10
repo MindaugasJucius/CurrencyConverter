@@ -25,14 +25,13 @@ class CurrencyPairCreationCoordinatorViewController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationBar.prefersLargeTitles = true
-        
     }
 
     func performPairCreationFlow(completion: @escaping (CurrencyPair) -> ()) {
         do {
             try currencyPairCreationViewModel.fetchStoredValues()
             
-            startCreationFlowSequence { [unowned self] selectedCurrencies in
+            let handleCompleteSelection: (CompleteSelection) -> () = { [unowned self] selectedCurrencies in
                 do {
                     let pair = try self.currencyPairModelController.constructCurrencyPair(
                         base: selectedCurrencies.base,
@@ -41,11 +40,13 @@ class CurrencyPairCreationCoordinatorViewController: UINavigationController {
                     try self.currencyPairModelController.store(currencyPair: pair)
                     completion(pair)
                 } catch let error {
-                    
+                    UIAlertController.alert(for: error.localizedDescription, on: self)
                 }
             }
-        } catch let error {
             
+            startCreationFlowSequence(completion: handleCompleteSelection)
+        } catch let error {
+            UIAlertController.alert(for: error.localizedDescription, on: self)
         }
     }
     
