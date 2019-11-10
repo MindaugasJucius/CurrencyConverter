@@ -18,37 +18,32 @@ class MockCurrenciesModelController: CurrenciesModelControlling {
     
 }
 
-class MockCurrencyPairModelRetriever: CurrencyPairModelRetrieving {
-
+class MockCurrencyPairModelRetrieverModifier: CurrencyPairModelRetrieving, CurrencyPairModelModifying {
+    
     var pairsToReturn: [CurrencyPair] = []
     
     func storedCurrencyPairs() throws -> [CurrencyPair] {
         return pairsToReturn
     }
     
-}
-
-class MockCurrencyPairModelModifier: CurrencyPairModelModifying {
-
     func constructCurrencyPair(base: Currency, convertTo: Currency) throws -> CurrencyPair {
-        fatalError()
+        fatalError("Not implemented")
     }
     
     func store(currencyPair: CurrencyPair) throws {
-        
+        fatalError("Not implemented")
     }
     
     func delete(currencyPair: CurrencyPair) throws {
-        
+        pairsToReturn.removeAll(where: { $0 == currencyPair })
     }
-
+    
 }
-
 
 class CurrencyPairCreationViewModelTests: XCTestCase {
         
     private let mockCurrenciesController = MockCurrenciesModelController()
-    private let mockCurrencyPairController = MockCurrencyPairModelRetriever()
+    private let mockCurrencyPairController = MockCurrencyPairModelRetrieverModifier()
     
     private lazy var viewModel = CurrencyPairCreationViewModel.init(
         currenciesModelController: mockCurrenciesController,

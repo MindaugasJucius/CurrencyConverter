@@ -69,4 +69,33 @@ class CurrencyPairModelControllerTests: XCTestCase {
         }
     }
     
+    func testDeletingCurrencyPairRemovesFromStoredPairs() {
+        do {
+            let mockPairToCreate = CurrencyPair(
+                baseCurrency: Currency(identifier: "USD"),
+                conversionTargetCurrency: Currency(identifier: "EUR"),
+                creationDate: Date()
+            )
+            
+            let mockPairToCreate1 = CurrencyPair(
+                baseCurrency: Currency(identifier: "EUR"),
+                conversionTargetCurrency: Currency(identifier: "GBP"),
+                creationDate: Date()
+            )
+            
+            try currencyPairModelController.store(currencyPair: mockPairToCreate)
+            try currencyPairModelController.store(currencyPair: mockPairToCreate1)
+            
+            let currentPairs = try currencyPairModelController.storedCurrencyPairs()
+            XCTAssertEqual(currentPairs.count, 2)
+            
+            try currencyPairModelController.delete(currencyPair: mockPairToCreate1)
+            
+            let pairsAfterDeletion = try currencyPairModelController.storedCurrencyPairs()
+            XCTAssertEqual(pairsAfterDeletion, [mockPairToCreate])
+        } catch {
+            XCTFail("failed to check if pair is stored")
+        }
+    }
+    
 }
