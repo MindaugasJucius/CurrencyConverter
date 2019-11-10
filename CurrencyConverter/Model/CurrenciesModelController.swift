@@ -16,7 +16,6 @@ class CurrenciesModelController: CurrenciesModelControlling {
     
     enum CurrenciesLoadError: Error {
         case noResource
-        case decodeError(String)
     }
     
     private let currenciesFileName = "currencies"
@@ -32,13 +31,9 @@ class CurrenciesModelController: CurrenciesModelControlling {
             throw CurrenciesLoadError.noResource
         }
         
-        do {
-            let currenciesFileData = try Data.init(contentsOf: currenciesFileURL)
-            let decodedCurrencyIdentifiers = try JSONDecoder().decode([String].self, from: currenciesFileData)
-            return decodedCurrencyIdentifiers.map(Currency.init)
-        } catch let error {
-            throw CurrenciesLoadError.decodeError(error.localizedDescription)
-        }
+        let currenciesFileData = try Data.init(contentsOf: currenciesFileURL)
+        let decodedCurrencyIdentifiers = try JSONDecoder().decode([String].self, from: currenciesFileData)
+        return decodedCurrencyIdentifiers.map(Currency.init)
     }
     
 }
