@@ -26,7 +26,7 @@ class CurrencyPairCreationCoordinatorViewController: UINavigationController {
         super.viewDidLoad()
         navigationBar.prefersLargeTitles = true
     }
-    
+        
     func performPairCreationFlow(completion: @escaping (CurrencyPair) -> ()) {
         do {
             try currencyPairCreationViewModel.fetchStoredValues()
