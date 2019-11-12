@@ -17,6 +17,10 @@ protocol CurrencyPairsViewModelOutputs {
 
 class CurrencyPairsViewModel {
     
+    private let exhangeRatesRequestTimeInterval: TimeInterval = 1
+    
+    private var exhangeRatesTimer: Timer?
+    
     enum State {
         case noPairs
         case pairs([CurrencyPair])
@@ -40,6 +44,17 @@ class CurrencyPairsViewModel {
         self.pairModelModifier = pairModelModifier
         self.pairModelRetriever = pairModelRetriever
         self.exhangeRateRequestPerformer = exhangeRateRequestPerformer
+    }
+    
+    func beginRequestingExchangeRates() {
+        exhangeRatesTimer = Timer.scheduledTimer(
+            withTimeInterval: exhangeRatesRequestTimeInterval, repeats: true,
+            block: { [weak self] timer in
+                self?.exhangeRateRequestPerformer.exchangeRates(for: [], completion: { result in
+                    
+                })
+            }
+        )
     }
     
     func delete(pair: CurrencyPair) throws {
