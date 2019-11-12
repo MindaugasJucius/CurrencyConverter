@@ -17,7 +17,6 @@ protocol ExchangeRateRequestPerforming {
 typealias CurrencyPairExchangeRate = Dictionary<String, Double>
 typealias ExchangeRateResult = Result<CurrencyPairExchangeRate, Error>
 
-
 class ExchangeRateRequestPerformer: ExchangeRateRequestPerforming {
 
     enum RequestError: Error {

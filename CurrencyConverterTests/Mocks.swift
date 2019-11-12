@@ -10,8 +10,14 @@ import Foundation
 
 class MockExchangeRateRequestPerformer: ExchangeRateRequestPerforming {
     
+    var returnOnCompletion: ExchangeRateResult?
+    var ratesMethodInvoked: (() -> ())?
+    
     func exchangeRates(for pairs: [CurrencyPair], completion: @escaping (ExchangeRateResult) -> ()) {
-        
+        guard let result = returnOnCompletion else {
+            return
+        }
+        completion(result)
     }
     
 }
