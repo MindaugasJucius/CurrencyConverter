@@ -52,7 +52,11 @@ class CurrencyPairsViewModel {
         exhangeRatesTimer = Timer.scheduledTimer(
             withTimeInterval: exhangeRatesRequestTimeInterval, repeats: true,
             block: { [weak self] timer in
-                self?.exhangeRateRequestPerformer.exchangeRates(for: [], completion: { result in
+                guard let pairs = self?.storedPairs, !pairs.isEmpty else {
+                    return
+                }
+                
+                self?.exhangeRateRequestPerformer.exchangeRates(for: pairs, completion: { result in
                     
                 })
             }
