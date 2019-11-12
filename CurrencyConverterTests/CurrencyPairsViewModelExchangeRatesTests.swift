@@ -10,16 +10,30 @@ import XCTest
 
 class CurrencyPairsViewModelExchangeRatesTests: XCTestCase {
 
-    let pairModelRetriever = MockCurrencyPairModelRetrieverModifier()
+    private let pairModelRetriever = MockCurrencyPairModelRetrieverModifier()
+    
+    private let requestPerformer = MockExchangeRateRequestPerformer()
     
     private lazy var viewModel = CurrencyPairsViewModel(
         pairModelModifier: pairModelRetriever,
         pairModelRetriever: pairModelRetriever,
-        exhangeRateRequestPerformer: MockExchangeRateRequestPerformer()
+        exhangeRateRequestPerformer: requestPerformer
     )
     
-    func testThatExchangeRequestPerformerIsCalledOnRequiredIntervals() {
+    func testThatExchangeRequestPerformerIsCalledEverySecond() {
+        let fulfillmentCount = 3
+        let expectation = XCTestExpectation(
+            description: "request perfrormer is invoked \(fulfillmentCount) times in \(fulfillmentCount) seconds"
+        )
+        expectation.assertForOverFulfill = true
+        expectation.expectedFulfillmentCount = fulfillmentCount
         
+        requestPerformer.ratesMethodInvoked = {
+            expectation.fulfill()
+        }
+        
+
+        wait(for: [expectation], timeout: TimeInterval(fulfillmentCount))
     }
     
 }
