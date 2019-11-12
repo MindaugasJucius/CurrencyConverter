@@ -89,11 +89,10 @@ class CurrencyPairsViewModelTests: XCTestCase {
             case .pairs(let pairs):
                 if fulfillmentCount == 0 {
                     XCTAssertEqual(pairs, mockPairs)
-                    expectation.fulfill()
                 } else if fulfillmentCount == 1 {
                     XCTAssertEqual(pairs, pairsPlusNewlyCreated)
-                    expectation.fulfill()
                 }
+                expectation.fulfill()
                 fulfillmentCount += 1
             default:
                 XCTFail("bad state")

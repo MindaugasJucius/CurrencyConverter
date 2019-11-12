@@ -30,9 +30,11 @@ class CurrencyPairsViewModel {
     // Output
     var observeStateChange: ((State) -> ())? {
         didSet {
-            observeStateChange?(constructState())
+            pairsChanged()
         }
     }
+    
+    private var storedPairs: [CurrencyPair] = []
     
     let pairModelModifier: CurrencyPairModelModifying
     let pairModelRetriever: CurrencyPairModelRetrieving
@@ -63,19 +65,19 @@ class CurrencyPairsViewModel {
     }
     
     func pairsChanged() {
-        observeStateChange?(constructState())
+        do {
+            self.storedPairs = try pairModelRetriever.storedCurrencyPairs()
+            observeStateChange?(constructState())
+        } catch let error {
+            observeStateChange?(.error(error))
+        }
     }
 
     private func constructState() -> State {
-        do {
-            let storedPairs = try pairModelRetriever.storedCurrencyPairs()
-            if !storedPairs.isEmpty {
-                return .pairs(storedPairs)
-            } else {
-                return .noPairs
-            }
-        } catch let error {
-            return .error(error)
+        if !storedPairs.isEmpty {
+            return .pairs(storedPairs)
+        } else {
+            return .noPairs
         }
     }
     
