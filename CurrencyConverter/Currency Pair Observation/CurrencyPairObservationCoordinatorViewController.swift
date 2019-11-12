@@ -15,7 +15,8 @@ class CurrencyPairObservationCoordinatorViewController: UINavigationController {
     
     private lazy var pairsViewModel = CurrencyPairsViewModel(
         pairModelModifier: pairModelController,
-        pairModelRetriever: pairModelController
+        pairModelRetriever: pairModelController,
+        exhangeRateRequestPerformer: ExchangeRateRequestPerformer()
     )
     
     override func viewDidLoad() {

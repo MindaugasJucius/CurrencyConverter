@@ -32,11 +32,14 @@ class CurrencyPairsViewModel {
     
     let pairModelModifier: CurrencyPairModelModifying
     let pairModelRetriever: CurrencyPairModelRetrieving
+    let exhangeRateRequestPerformer: ExchangeRateRequestPerforming
     
     init(pairModelModifier: CurrencyPairModelModifying,
-         pairModelRetriever: CurrencyPairModelRetrieving) {
+         pairModelRetriever: CurrencyPairModelRetrieving,
+         exhangeRateRequestPerformer: ExchangeRateRequestPerforming) {
         self.pairModelModifier = pairModelModifier
         self.pairModelRetriever = pairModelRetriever
+        self.exhangeRateRequestPerformer = exhangeRateRequestPerformer
     }
     
     func delete(pair: CurrencyPair) throws {
