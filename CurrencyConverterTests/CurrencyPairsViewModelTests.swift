@@ -11,34 +11,11 @@ import XCTest
 class CurrencyPairsViewModelTests: XCTestCase {
     
     let pairModelRetriever = MockCurrencyPairModelRetrieverModifier()
-
-    let mockPairToCreate = CurrencyPair(
-        baseCurrency: Currency(identifier: "USD"),
-        conversionTargetCurrency: Currency(identifier: "EUR"),
-        creationDate: Date()
-    )
-    
-    let mockPairToCreate1 = CurrencyPair(
-        baseCurrency: Currency(identifier: "EUR"),
-        conversionTargetCurrency: Currency(identifier: "GBP"),
-        creationDate: Date()
-    )
-    
-    let mockPairToCreate2 = CurrencyPair(
-        baseCurrency: Currency(identifier: "GBP"),
-        conversionTargetCurrency: Currency(identifier: "USD"),
-        creationDate: Date()
-    )
-    
-    let mockPairToCreate3 = CurrencyPair(
-        baseCurrency: Currency(identifier: "GBP"),
-        conversionTargetCurrency: Currency(identifier: "LEU"),
-        creationDate: Date()
-    )
     
     private lazy var viewModel = CurrencyPairsViewModel(
         pairModelModifier: pairModelRetriever,
-        pairModelRetriever: pairModelRetriever
+        pairModelRetriever: pairModelRetriever,
+        exhangeRateRequestPerformer: MockExchangeRateRequestPerformer()
     )
     
     override func setUp() {
@@ -62,13 +39,13 @@ class CurrencyPairsViewModelTests: XCTestCase {
         
         let observer: (CurrencyPairsViewModel.State) -> () = { state in
             if case let CurrencyPairsViewModel.State.pairs(pairs) = state {
-                XCTAssertTrue(pairs.contains(self.mockPairToCreate))
+                XCTAssertTrue(pairs.contains(TestCurrencyPairs.mockPairToCreate))
                 expectation.fulfill()
             }
         }
         
         viewModel.observeStateChange = observer
-        pairModelRetriever.pairsToReturn = [mockPairToCreate]
+        pairModelRetriever.pairsToReturn = [TestCurrencyPairs.mockPairToCreate]
         viewModel.pairsChanged()
         
         wait(for: [expectation], timeout: 0.1)
@@ -77,7 +54,9 @@ class CurrencyPairsViewModelTests: XCTestCase {
     func testStateContainsStoredPairs() {
         let expectation = XCTestExpectation(description: "state contains stored pairs")
         
-        let mockPairs = [mockPairToCreate, mockPairToCreate1, mockPairToCreate2]
+        let mockPairs = [TestCurrencyPairs.mockPairToCreate,
+                         TestCurrencyPairs.mockPairToCreate1,
+                         TestCurrencyPairs.mockPairToCreate2]
         
         pairModelRetriever.pairsToReturn = mockPairs
         viewModel.observeStateChange = { state in
@@ -98,10 +77,12 @@ class CurrencyPairsViewModelTests: XCTestCase {
         expectation.expectedFulfillmentCount = 2
         var fulfillmentCount = 0
         
-        let mockPairs = [mockPairToCreate, mockPairToCreate1, mockPairToCreate2]
+        let mockPairs = [TestCurrencyPairs.mockPairToCreate,
+                         TestCurrencyPairs.mockPairToCreate1,
+                         TestCurrencyPairs.mockPairToCreate2]
         
         pairModelRetriever.pairsToReturn = mockPairs
-        let pairsPlusNewlyCreated = mockPairs + [self.mockPairToCreate3]
+        let pairsPlusNewlyCreated = mockPairs + [TestCurrencyPairs.mockPairToCreate3]
         
         viewModel.observeStateChange = { state in
             switch state {
@@ -128,8 +109,9 @@ class CurrencyPairsViewModelTests: XCTestCase {
     func testDeletingPairReturnsStateWithoutDeletedPairs() {
         let expectation = XCTestExpectation(description: "state doesn't contain deleted pair")
 
-        let pairToDelete = mockPairToCreate2
-        let remainingAfterDeletion = [mockPairToCreate, mockPairToCreate1]
+        let pairToDelete = TestCurrencyPairs.mockPairToCreate2
+        let remainingAfterDeletion = [TestCurrencyPairs.mockPairToCreate,
+                                      TestCurrencyPairs.mockPairToCreate1]
         let mockPairs = remainingAfterDeletion + [pairToDelete]
         
         viewModel.observeStateChange = { state in

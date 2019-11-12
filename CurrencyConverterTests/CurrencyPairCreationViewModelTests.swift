@@ -8,38 +8,6 @@
 import XCTest
 @testable import CurrencyConverter
 
-class MockCurrenciesModelController: CurrenciesModelControlling {
-    
-    var currenciesToReturn: [Currency] = []
-    
-    func loadCurrencies() throws -> [Currency] {
-        return currenciesToReturn
-    }
-    
-}
-
-class MockCurrencyPairModelRetrieverModifier: CurrencyPairModelRetrieving, CurrencyPairModelModifying {
-    
-    var pairsToReturn: [CurrencyPair] = []
-    
-    func storedCurrencyPairs() throws -> [CurrencyPair] {
-        return pairsToReturn
-    }
-    
-    func constructCurrencyPair(base: Currency, convertTo: Currency) throws -> CurrencyPair {
-        fatalError("Not implemented")
-    }
-    
-    func store(currencyPair: CurrencyPair) throws {
-        fatalError("Not implemented")
-    }
-    
-    func delete(currencyPair: CurrencyPair) throws {
-        pairsToReturn.removeAll(where: { $0 == currencyPair })
-    }
-    
-}
-
 class CurrencyPairCreationViewModelTests: XCTestCase {
         
     private let mockCurrenciesController = MockCurrenciesModelController()

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F0E39A4237B2A5E00E09EE9 /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0E39A3237B2A5E00E09EE9 /* Mocks.swift */; };
 		F45AADE9237596100099F668 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45AADE8237596100099F668 /* AppDelegate.swift */; };
 		F45AADF2237596130099F668 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F45AADF1237596130099F668 /* Assets.xcassets */; };
 		F45AADF5237596130099F668 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F45AADF3237596130099F668 /* LaunchScreen.storyboard */; };
@@ -52,6 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5F0E39A3237B2A5E00E09EE9 /* Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
 		F45AADE5237596100099F668 /* CurrencyConverter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CurrencyConverter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F45AADE8237596100099F668 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F45AADF1237596130099F668 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -134,9 +136,9 @@
 			isa = PBXGroup;
 			children = (
 				F45AADE8237596100099F668 /* AppDelegate.swift */,
+				F45AAE232376C2FF0099F668 /* Exchange Rate Service */,
 				F45AAE3C237825520099F668 /* Currency Pair Observation */,
 				F45AAE262376FC280099F668 /* Currency Pair Creation Flow */,
-				F45AAE232376C2FF0099F668 /* Exchange Rate Service */,
 				F45AAE1A237597000099F668 /* Model */,
 				F45AAE39237822EA0099F668 /* Extensions */,
 				F45AADF1237596130099F668 /* Assets.xcassets */,
@@ -155,6 +157,7 @@
 				F45AAE1F2375A7EE0099F668 /* CurrencyPairModelControllerTests.swift */,
 				F45AAE2F23770D580099F668 /* CurrencyPairCreationViewModelTests.swift */,
 				F45AAE45237828540099F668 /* CurrencyPairsViewModelTests.swift */,
+				5F0E39A3237B2A5E00E09EE9 /* Mocks.swift */,
 				F45AAE01237596130099F668 /* Info.plist */,
 			);
 			path = CurrencyConverterTests;
@@ -376,6 +379,7 @@
 				F45AAE00237596130099F668 /* CurrenciesModelControllerTests.swift in Sources */,
 				F45AAE3023770D580099F668 /* CurrencyPairCreationViewModelTests.swift in Sources */,
 				F45AAE46237828540099F668 /* CurrencyPairsViewModelTests.swift in Sources */,
+				5F0E39A4237B2A5E00E09EE9 /* Mocks.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
