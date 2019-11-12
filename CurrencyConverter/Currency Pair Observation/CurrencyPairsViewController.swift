@@ -7,22 +7,31 @@
 
 import UIKit
 
+enum SectionItem: Hashable {
+    case pair(CurrencyPair)
+    case compactAddPair
+    case expandedAddPair
+}
+
+class CurrencyPairsDataSource: UITableViewDiffableDataSource<String, SectionItem> {
+    
+    // No other way to provide custom behaviour to data source methods
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+}
+
 class CurrencyPairsViewController: UIViewController {
         
     @IBOutlet private weak var tableView: UITableView!
     
-    enum SectionItem: Hashable {
-        case pair(CurrencyPair)
-        case compactAddPair
-        case expandedAddPair
-    }
 
     private static let pairCellReuseIdentifier = "CurrencyPairCell"
     private static let addPairCompactCellReuseIdentifier = "AddPairCompactCell"
     private static let addPairExpandedCellReuseIdentifier = "AddPairExpandedCell"
     
-    private lazy var dataSource: UITableViewDiffableDataSource<String, SectionItem> = {
-        return UITableViewDiffableDataSource<String, SectionItem>(
+    private lazy var dataSource: CurrencyPairsDataSource = {
+        return CurrencyPairsDataSource(
             tableView: tableView,
             cellProvider: { tableView, indexPath, sectionItem in
                 switch sectionItem {
@@ -89,11 +98,22 @@ class CurrencyPairsViewController: UIViewController {
         switch state {
         case .pairs(let pairs):
             applySnapshot(pairs: pairs)
+        case .noPairs:
+            applySnapshot(pairs: [])
         default:
             print("miegam")
         }
     }
 
+    private func deletePair(at indexPath: IndexPath) {
+        guard let item = dataSource.itemIdentifier(for: indexPath),
+            case let SectionItem.pair(pair) = item else {
+            return
+        }
+        
+        try! viewModel.delete(pair: pair)
+    }
+    
     private func applySnapshot(pairs: [CurrencyPair]) {
         var snapshot = NSDiffableDataSourceSnapshot<String, SectionItem>.init()
         snapshot.appendSections(["add pair"])
@@ -117,6 +137,24 @@ extension CurrencyPairsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         createPair()
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        guard let sectionItem = dataSource.itemIdentifier(for: indexPath),
+            case SectionItem.pair = sectionItem else {
+            return .none
+        }
+
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction.init(style: .destructive, title: nil) { [weak self] (action, view, completion) in
+            self?.deletePair(at: indexPath)
+        }
+        action.image = UIImage.init(systemName: "trash")
+        return UISwipeActionsConfiguration.init(actions: [action])
     }
     
 }
