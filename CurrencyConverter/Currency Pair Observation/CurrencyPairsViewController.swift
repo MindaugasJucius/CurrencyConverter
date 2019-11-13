@@ -7,13 +7,7 @@
 
 import UIKit
 
-enum SectionItem: Hashable {
-    case pair(CurrencyPair)
-    case compactAddPair
-    case expandedAddPair
-}
-
-class CurrencyPairsDataSource: UITableViewDiffableDataSource<String, SectionItem> {
+class EditableDataSource<U: Hashable, T: Hashable>: UITableViewDiffableDataSource<U, T> {
     
     // No other way to provide custom behaviour to data source methods
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -24,33 +18,39 @@ class CurrencyPairsDataSource: UITableViewDiffableDataSource<String, SectionItem
 class CurrencyPairsViewController: UIViewController {
         
     @IBOutlet private weak var tableView: UITableView!
-
-    private static let pairCellReuseIdentifier = "CurrencyPairCell"
-    private static let addPairCompactCellReuseIdentifier = "AddPairCompactCell"
-    private static let addPairExpandedCellReuseIdentifier = "AddPairExpandedCell"
     
-    private lazy var dataSource: CurrencyPairsDataSource = {
-        return CurrencyPairsDataSource(
+    let expandedAddPairCell = "AddPairExpandedTableViewCell"
+    let compactAddPairCell = "AddPairTableViewCell"
+    let currencyPairCell = "CurrencyPairTableViewCell"
+    
+    enum SectionItem: Hashable {
+
+        case pair(CurrencyPair)
+        case compactAddPair
+        case expandedAddPair
+        
+    }
+    
+    private lazy var dataSource: EditableDataSource<String, SectionItem> = {
+        return EditableDataSource(
             tableView: tableView,
             cellProvider: { tableView, indexPath, sectionItem in
                 switch sectionItem {
                 case .pair(let pair):
                     let cell = tableView.dequeueReusableCell(
-                        withIdentifier: CurrencyPairsViewController.pairCellReuseIdentifier,
+                        withIdentifier: self.currencyPairCell,
                         for: indexPath
                     )
-                    cell.textLabel?.text = pair.queryParameter
-                    cell.textLabel?.font = .systemFont(ofSize: 20, weight: .medium)
                     return cell
                 case .compactAddPair:
                     let cell = tableView.dequeueReusableCell(
-                        withIdentifier: CurrencyPairsViewController.addPairCompactCellReuseIdentifier,
+                        withIdentifier: self.compactAddPairCell,
                         for: indexPath
                     )
                     return cell
                 case .expandedAddPair:
                     let cell = tableView.dequeueReusableCell(
-                        withIdentifier: CurrencyPairsViewController.addPairExpandedCellReuseIdentifier,
+                        withIdentifier: self.expandedAddPairCell,
                         for: indexPath
                     )
                     cell.backgroundColor = .clear
@@ -89,16 +89,18 @@ class CurrencyPairsViewController: UIViewController {
     }
     
     private func configureTableView() {
-        tableView.register(UITableViewCell.self,
-                           forCellReuseIdentifier: CurrencyPairsViewController.pairCellReuseIdentifier)
+
+        let pairCellNib = UINib(nibName: String(describing: CurrencyPairTableViewCell.self), bundle: nil)
+        tableView.register(pairCellNib,
+                           forCellReuseIdentifier: currencyPairCell)
         
         let addPairCellNib = UINib(nibName: String(describing: AddPairTableViewCell.self), bundle: nil)
         tableView.register(addPairCellNib,
-                           forCellReuseIdentifier: CurrencyPairsViewController.addPairCompactCellReuseIdentifier)
+                           forCellReuseIdentifier: compactAddPairCell)
         
-        let addPairExpandedCellNib = UINib(nibName: "AddPairExpandedTableViewCell", bundle: nil)
+        let addPairExpandedCellNib = UINib(nibName: expandedAddPairCell, bundle: nil)
         tableView.register(addPairExpandedCellNib,
-                           forCellReuseIdentifier: CurrencyPairsViewController.addPairExpandedCellReuseIdentifier)
+                           forCellReuseIdentifier: expandedAddPairCell)
 
         dataSource.defaultRowAnimation = .fade
         tableView.dataSource = dataSource
@@ -112,8 +114,8 @@ class CurrencyPairsViewController: UIViewController {
             applySnapshot(pairs: pairs)
         case .noPairs:
             applySnapshot(pairs: [])
-        default:
-            print("miegam")
+        case .error(let error):
+            UIAlertController.alert(for: error.localizedDescription, on: self)
         }
     }
 
