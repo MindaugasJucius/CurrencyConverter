@@ -75,6 +75,7 @@ class CurrencyPairsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = NSLocalizedString("all_currency_pairs", comment: "")
         view.backgroundColor = .systemGroupedBackground
         configureTableView()
     }

@@ -21,11 +21,13 @@ class CurrencyPairObservationCoordinatorViewController: UINavigationController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        viewControllers = [CurrencyPairsViewController(viewModel: pairsViewModel, selectedCreatePair: self.createPair())]
+        navigationBar.prefersLargeTitles = true
+        let pairsViewController = CurrencyPairsViewController(viewModel: pairsViewModel,
+                                                              selectedCreatePair: self.initiateCreatePairFlow())
+        viewControllers = [pairsViewController]
     }
 
-    private func createPair() {
+    private func initiateCreatePairFlow() {
         let pairCreationCoordinator = CurrencyPairCreationCoordinatorViewController()
         pairCreationCoordinator.performPairCreationFlow { [unowned self] _ in
             self.pairsViewModel.pairsChanged()
