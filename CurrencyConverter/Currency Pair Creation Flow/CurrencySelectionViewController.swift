@@ -80,6 +80,7 @@ extension CurrencySelectionViewController: UITableViewDelegate {
         guard let currencyRepresentation = dataSource.itemIdentifier(for: indexPath) else {
             return
         }
+        
         selected(currencyRepresentation.currency)
     }
     

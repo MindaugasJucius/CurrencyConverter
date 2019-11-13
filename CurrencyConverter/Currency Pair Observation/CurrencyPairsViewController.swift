@@ -100,7 +100,7 @@ class CurrencyPairsViewController: UIViewController {
         tableView.register(addPairExpandedCellNib,
                            forCellReuseIdentifier: CurrencyPairsViewController.addPairExpandedCellReuseIdentifier)
 
-        
+        dataSource.defaultRowAnimation = .fade
         tableView.dataSource = dataSource
         tableView.delegate = self
         tableView.backgroundColor = .clear

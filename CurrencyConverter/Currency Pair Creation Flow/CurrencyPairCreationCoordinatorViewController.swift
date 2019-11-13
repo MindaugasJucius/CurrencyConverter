@@ -21,11 +21,6 @@ class CurrencyPairCreationCoordinatorViewController: UINavigationController {
         currenciesModelController: currenciesModelController,
         currencyPairModelController: currencyPairModelController
     )
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        navigationBar.prefersLargeTitles = true
-    }
         
     func performPairCreationFlow(completion: @escaping (CurrencyPair) -> ()) {
         do {
