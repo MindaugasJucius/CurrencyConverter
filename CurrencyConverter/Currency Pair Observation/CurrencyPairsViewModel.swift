@@ -19,7 +19,7 @@ class CurrencyPairsViewModel {
     
     private let exhangeRatesRequestTimeInterval: TimeInterval = 1
     
-    private var exhangeRatesTimer: Timer?
+    private var exchangeRatesTimer: Timer?
     
     enum State {
         case noPairs
@@ -49,7 +49,7 @@ class CurrencyPairsViewModel {
     }
     
     func beginRequestingExchangeRates() {
-        exhangeRatesTimer = Timer.scheduledTimer(
+        exchangeRatesTimer = Timer.scheduledTimer(
             withTimeInterval: exhangeRatesRequestTimeInterval, repeats: true,
             block: { [weak self] timer in
                 guard let pairs = self?.storedPairs, !pairs.isEmpty else {
@@ -57,10 +57,14 @@ class CurrencyPairsViewModel {
                 }
                 
                 self?.exhangeRateRequestPerformer.exchangeRates(for: pairs, completion: { result in
-                    
+                    print(result)
                 })
             }
         )
+    }
+    
+    func stopRequestingExchangeRates() {
+        exchangeRatesTimer?.invalidate()
     }
     
     func delete(pair: CurrencyPair) throws {

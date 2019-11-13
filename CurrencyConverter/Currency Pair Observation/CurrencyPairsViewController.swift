@@ -61,11 +61,11 @@ class CurrencyPairsViewController: UIViewController {
     }()
     
     private let viewModel: CurrencyPairsViewModel
-    private let createPair: () -> ()
+    private let selectedCreatePair: () -> ()
     
     init(viewModel: CurrencyPairsViewModel, selectedCreatePair: @autoclosure @escaping () -> ()) {
         self.viewModel = viewModel
-        self.createPair = selectedCreatePair
+        self.selectedCreatePair = selectedCreatePair
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -84,6 +84,7 @@ class CurrencyPairsViewController: UIViewController {
         viewModel.observeStateChange = { [unowned self] state in
             self.update(to: state)
         }
+        viewModel.beginRequestingExchangeRates()
     }
     
     private func configureTableView() {
@@ -102,7 +103,6 @@ class CurrencyPairsViewController: UIViewController {
         tableView.dataSource = dataSource
         tableView.delegate = self
         tableView.backgroundColor = .clear
-//        tableView.rowHeight = UITableView.automaticDimension
     }
     
     private func update(to state: CurrencyPairsViewModel.State) {
@@ -167,7 +167,7 @@ extension CurrencyPairsViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        createPair()
+        selectedCreatePair()
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
