@@ -24,7 +24,6 @@ class CurrencyPairsDataSource: UITableViewDiffableDataSource<String, SectionItem
 class CurrencyPairsViewController: UIViewController {
         
     @IBOutlet private weak var tableView: UITableView!
-    
 
     private static let pairCellReuseIdentifier = "CurrencyPairCell"
     private static let addPairCompactCellReuseIdentifier = "AddPairCompactCell"
@@ -36,18 +35,25 @@ class CurrencyPairsViewController: UIViewController {
             cellProvider: { tableView, indexPath, sectionItem in
                 switch sectionItem {
                 case .pair(let pair):
-                                    let cell = tableView.dequeueReusableCell(
-                                        withIdentifier: CurrencyPairsViewController.pairCellReuseIdentifier,
-                                        for: indexPath
-                                    )
-                                    cell.textLabel?.text = pair.queryParameter
-                                    cell.textLabel?.font = .systemFont(ofSize: 20, weight: .medium)
-                                    return cell
-                default:
+                    let cell = tableView.dequeueReusableCell(
+                        withIdentifier: CurrencyPairsViewController.pairCellReuseIdentifier,
+                        for: indexPath
+                    )
+                    cell.textLabel?.text = pair.queryParameter
+                    cell.textLabel?.font = .systemFont(ofSize: 20, weight: .medium)
+                    return cell
+                case .compactAddPair:
                     let cell = tableView.dequeueReusableCell(
                         withIdentifier: CurrencyPairsViewController.addPairCompactCellReuseIdentifier,
                         for: indexPath
                     )
+                    return cell
+                case .expandedAddPair:
+                    let cell = tableView.dequeueReusableCell(
+                        withIdentifier: CurrencyPairsViewController.addPairExpandedCellReuseIdentifier,
+                        for: indexPath
+                    )
+                    cell.backgroundColor = .clear
                     return cell
                 }
             }
@@ -84,14 +90,19 @@ class CurrencyPairsViewController: UIViewController {
         tableView.register(UITableViewCell.self,
                            forCellReuseIdentifier: CurrencyPairsViewController.pairCellReuseIdentifier)
         
-        let nib = UINib(nibName: String(describing: AddPairTableViewCell.self), bundle: nil)
-        tableView.register(nib,
+        let addPairCellNib = UINib(nibName: String(describing: AddPairTableViewCell.self), bundle: nil)
+        tableView.register(addPairCellNib,
                            forCellReuseIdentifier: CurrencyPairsViewController.addPairCompactCellReuseIdentifier)
+        
+        let addPairExpandedCellNib = UINib(nibName: "AddPairExpandedTableViewCell", bundle: nil)
+        tableView.register(addPairExpandedCellNib,
+                           forCellReuseIdentifier: CurrencyPairsViewController.addPairExpandedCellReuseIdentifier)
+
         
         tableView.dataSource = dataSource
         tableView.delegate = self
         tableView.backgroundColor = .clear
-        tableView.rowHeight = UITableView.automaticDimension
+//        tableView.rowHeight = UITableView.automaticDimension
     }
     
     private func update(to state: CurrencyPairsViewModel.State) {
@@ -116,16 +127,36 @@ class CurrencyPairsViewController: UIViewController {
     
     private func applySnapshot(pairs: [CurrencyPair]) {
         var snapshot = NSDiffableDataSourceSnapshot<String, SectionItem>.init()
-        snapshot.appendSections(["add pair"])
-        snapshot.appendItems([.compactAddPair])
-        snapshot.appendSections(["currency pairs"])
-        snapshot.appendItems(pairs.map { SectionItem.pair($0) })
+        if pairs.isEmpty {
+            snapshot.appendSections(["add pair expanded"])
+            snapshot.appendItems([.expandedAddPair])
+        } else {
+            snapshot.appendSections(["add pair"])
+            snapshot.appendItems([.compactAddPair])
+            snapshot.appendSections(["currency pairs"])
+            snapshot.appendItems(pairs.map { SectionItem.pair($0) })
+        }
+
         dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
     }
 
 }
 
 extension CurrencyPairsViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let item = dataSource.itemIdentifier(for: indexPath) else {
+            fatalError()
+        }
+        
+        switch item {
+        case .expandedAddPair:
+            return tableView.bounds.height
+        default:
+            return UITableView.automaticDimension
+        }
+
+    }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         guard let sectionItem = dataSource.itemIdentifier(for: indexPath),
