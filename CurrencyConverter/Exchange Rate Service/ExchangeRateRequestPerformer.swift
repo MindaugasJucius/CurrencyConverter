@@ -10,12 +10,11 @@ import Foundation
 protocol ExchangeRateRequestPerforming {
     
     func exchangeRates(for pairs: [CurrencyPair],
-                       completion: @escaping (ExchangeRateResult) -> ())
+                       completion: @escaping (ExchangeRatesResult) -> ())
     
 }
 
-typealias CurrencyPairExchangeRate = Dictionary<String, Double>
-typealias ExchangeRateResult = Result<CurrencyPairExchangeRate, Error>
+typealias ExchangeRatesResult = Result<[(CurrencyPair, Double)], Error>
 
 class ExchangeRateRequestPerformer: ExchangeRateRequestPerforming {
 
@@ -32,7 +31,7 @@ class ExchangeRateRequestPerformer: ExchangeRateRequestPerforming {
     private var dataTask: URLSessionDataTask?
     
     func exchangeRates(for pairs: [CurrencyPair],
-                       completion: @escaping (ExchangeRateResult) -> ()) {
+                       completion: @escaping (ExchangeRatesResult) -> ()) {
         do {
             let components = try constructComponents(from: pairs)
             guard let url = components.url else {
@@ -47,7 +46,8 @@ class ExchangeRateRequestPerformer: ExchangeRateRequestPerforming {
                     return
                 }
                 
-                let result = self.handleResponse(data: data,
+                let result = self.handleResponse(for: pairs,
+                                                 requestData: data,
                                                  response: response,
                                                  error: error)
                 completion(result)
@@ -59,7 +59,7 @@ class ExchangeRateRequestPerformer: ExchangeRateRequestPerforming {
         }
     }
     
-    private func handleResponse(data: Data?, response: URLResponse?, error: Error?) -> ExchangeRateResult {
+    private func handleResponse(for pairs: [CurrencyPair], requestData data: Data?, response: URLResponse?, error: Error?) -> ExchangeRatesResult {
         if let error = error {
             return .failure(error)
         }
@@ -75,9 +75,19 @@ class ExchangeRateRequestPerformer: ExchangeRateRequestPerforming {
         
         do {
             let decodedData = try JSONDecoder().decode(Dictionary<String, Double>.self, from: data)
-            return .success(decodedData)
+            let assignedPairs = assignExchangeRatesToPairs(pairs: pairs, requestResult: decodedData)
+            return .success(assignedPairs)
         } catch let error {
             return .failure(error)
+        }
+    }
+    
+    private func assignExchangeRatesToPairs(pairs: [CurrencyPair], requestResult: Dictionary<String, Double>) -> [(CurrencyPair, Double)] {
+        return pairs.compactMap { pair in
+            guard let currencyPairExchangeRate = requestResult[pair.queryParameter] else {
+                return nil
+            }
+            return (pair, currencyPairExchangeRate)
         }
     }
     
