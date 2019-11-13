@@ -14,9 +14,10 @@ class AddPairTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-//        plusImageView.image = UIImage.init(systemName: "plus.circle.fill")
+        plusImageView.image = UIImage.init(systemName: "plus.circle.fill")
         addPairLabel.font = .systemFont(ofSize: 20, weight: .medium)
         addPairLabel.text = NSLocalizedString("add_pair", comment: "")
+        addPairLabel.textColor = .systemBlue
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
