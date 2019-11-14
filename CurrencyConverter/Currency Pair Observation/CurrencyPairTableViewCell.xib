@@ -9,32 +9,39 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="CurrencyPairTableViewCell" customModule="CurrencyConverter" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="56" id="KGk-i7-Jjw" customClass="CurrencyPairTableViewCell" customModule="CurrencyConverter" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SY4-1q-68v">
-                        <rect key="frame" x="16" y="11.5" width="42" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kTM-dw-Y00">
-                        <rect key="frame" x="262" y="11.5" width="42" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="uAz-m0-azB">
+                        <rect key="frame" x="16" y="16" width="288" height="24"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SY4-1q-68v">
+                                <rect key="frame" x="0.0" y="0.0" width="42" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kTM-dw-Y00">
+                                <rect key="frame" x="50" y="0.0" width="238" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="height" priority="999" constant="24" id="wJG-ji-zWR"/>
+                        </constraints>
+                    </stackView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="kTM-dw-Y00" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Yeq-U5-fFj"/>
-                    <constraint firstItem="SY4-1q-68v" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="lEY-cn-aiu"/>
-                    <constraint firstItem="SY4-1q-68v" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="m0V-J6-fz9"/>
-                    <constraint firstItem="kTM-dw-Y00" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="SY4-1q-68v" secondAttribute="trailing" constant="8" id="nQB-v1-PAx"/>
-                    <constraint firstAttribute="trailing" secondItem="kTM-dw-Y00" secondAttribute="trailing" constant="16" id="zbZ-V4-Bfi"/>
+                    <constraint firstItem="uAz-m0-azB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="7VC-Gj-9ET"/>
+                    <constraint firstAttribute="trailing" secondItem="uAz-m0-azB" secondAttribute="trailing" constant="16" id="Mft-gN-brz"/>
+                    <constraint firstItem="uAz-m0-azB" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="WQk-Aa-o5D"/>
+                    <constraint firstAttribute="bottom" secondItem="uAz-m0-azB" secondAttribute="bottom" constant="16" id="aNs-tQ-ooN"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -42,7 +49,7 @@
                 <outlet property="baseCurrencyLabel" destination="SY4-1q-68v" id="4O4-tf-0mo"/>
                 <outlet property="targetCurrencyLabel" destination="kTM-dw-Y00" id="XsG-5x-Ppz"/>
             </connections>
-            <point key="canvasLocation" x="132" y="25"/>
+            <point key="canvasLocation" x="131.8840579710145" y="28.794642857142854"/>
         </tableViewCell>
     </objects>
 </document>

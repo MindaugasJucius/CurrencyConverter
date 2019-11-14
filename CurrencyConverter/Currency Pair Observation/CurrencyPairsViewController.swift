@@ -191,7 +191,6 @@ extension CurrencyPairsViewController: UITableViewDelegate {
         default:
             return UITableView.automaticDimension
         }
-
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
