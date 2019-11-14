@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EditableDataSource<U: Hashable, T: Hashable>: UITableViewDiffableDataSource<U, T> {
+class EditableDataSource<Section: Hashable, Item: Hashable>: UITableViewDiffableDataSource<Section, Item> {
     
     // No other way to provide custom behaviour to data source methods
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -216,7 +216,7 @@ extension CurrencyPairsViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let action = UIContextualAction.init(style: .destructive, title: nil) { [weak self] (action, view, completion) in
+        let action = UIContextualAction.init(style: .destructive, title: nil) { [weak self] (action, _, _) in
             self?.deletePair(at: indexPath)
         }
         action.image = UIImage.init(systemName: "trash")
