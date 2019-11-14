@@ -11,13 +11,14 @@ import XCTest
 class CurrencyPairsViewModelExchangeRatesTests: XCTestCase {
 
     private let pairModelRetriever = MockCurrencyPairModelRetrieverModifier()
-    
     private let requestPerformer = MockExchangeRateRequestPerformer()
+    private let mockMonitor = MockReachabilityMonitor()
     
     private lazy var viewModel = CurrencyPairsViewModel(
         pairModelModifier: pairModelRetriever,
         pairModelRetriever: pairModelRetriever,
-        exhangeRateRequestPerformer: requestPerformer
+        exhangeRateRequestPerformer: requestPerformer,
+        reachabilityMonitor: mockMonitor
     )
     
     override func setUp() {
@@ -29,13 +30,13 @@ class CurrencyPairsViewModelExchangeRatesTests: XCTestCase {
     func testThatExchangeRequestPerformerIsCalledEverySecond() {
         let fulfillmentCount = 3
         let expectation = XCTestExpectation(
-            description: "request perfrormer is invoked \(fulfillmentCount) times in \(fulfillmentCount) seconds"
+            description: "request performer is invoked \(fulfillmentCount) times in \(fulfillmentCount) seconds"
         )
         expectation.expectedFulfillmentCount = fulfillmentCount
         
         pairModelRetriever.pairsToReturn = [TestCurrencyPairs.mockPairToCreate]
         viewModel.pairsChanged()
-        viewModel.beginRequestingExchangeRates()
+        mockMonitor.networkReachabilityChanged?(true)
         
         requestPerformer.ratesMethodInvoked = { _ in
             expectation.fulfill()
@@ -52,7 +53,7 @@ class CurrencyPairsViewModelExchangeRatesTests: XCTestCase {
 
         pairModelRetriever.pairsToReturn = []
         viewModel.pairsChanged()
-        viewModel.beginRequestingExchangeRates()
+        mockMonitor.networkReachabilityChanged?(true)
 
         requestPerformer.ratesMethodInvoked = { _ in
             expectation.fulfill()
@@ -74,7 +75,7 @@ class CurrencyPairsViewModelExchangeRatesTests: XCTestCase {
         requestPerformer.returnOnCompletion = requestPerformerResult
         pairModelRetriever.pairsToReturn = Array(requestPerformerResult.keys)
         viewModel.pairsChanged()
-        viewModel.beginRequestingExchangeRates()
+        mockMonitor.networkReachabilityChanged?(true)
         
         viewModel.exchangeRatesChanged = { pairsWithExchangeRate in
             pairsWithExchangeRate.forEach { pairWithExchangeRate in
@@ -102,7 +103,7 @@ class CurrencyPairsViewModelExchangeRatesTests: XCTestCase {
         requestPerformer.returnOnCompletion = requestPerformerResult
         pairModelRetriever.pairsToReturn = Array(requestPerformerResult.keys)
         viewModel.pairsChanged()
-        viewModel.beginRequestingExchangeRates()
+        mockMonitor.networkReachabilityChanged?(true)
         
         viewModel.observeStateChanged = { state in
             switch state {

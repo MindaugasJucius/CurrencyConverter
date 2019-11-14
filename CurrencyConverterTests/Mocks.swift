@@ -8,6 +8,12 @@
 import Foundation
 @testable import CurrencyConverter
 
+class MockReachabilityMonitor: ReachabilityMonitoring {
+    var networkReachabilityChanged: ((Bool) -> ())?
+    
+    func startObserving() { }
+}
+
 class MockExchangeRateRequestPerformer: ExchangeRateRequestPerforming {
     
     var returnOnCompletion: [CurrencyPair: Double]?

@@ -7,26 +7,32 @@
 
 import Network
 
-protocol ReachabilityMonitoring {
+protocol ReachabilityMonitoring: class {
+    
     var networkReachabilityChanged: ((Bool) -> ())? { get set }
+    
+    func startObserving()
+    
 }
 
 class ReachabilityMonitor: ReachabilityMonitoring {
-    
-    private let observationQueue = DispatchQueue.init(label: "com.vaziuojam.ltu.CurrencyConverter.observer",
-                                                      qos: .background)
-    
+
     var networkReachabilityChanged: ((Bool) -> ())?
     
     private let monitor = NWPathMonitor()
     
     func startObserving() {
         monitor.pathUpdateHandler = { [weak self] path in
-            let reachable = path.status != .unsatisfied
-            self?.networkReachabilityChanged?(reachable)
+            self?.notify(path: path)
         }
         
-        monitor.start(queue: observationQueue)
+        monitor.start(queue: .main)
+        notify(path: monitor.currentPath)
+    }
+    
+    private func notify(path: NWPath) {
+        let reachable = path.status != .unsatisfied
+        networkReachabilityChanged?(reachable)
     }
     
 }

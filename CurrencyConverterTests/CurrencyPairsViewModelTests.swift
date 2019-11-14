@@ -15,7 +15,8 @@ class CurrencyPairsViewModelTests: XCTestCase {
     private lazy var viewModel = CurrencyPairsViewModel(
         pairModelModifier: pairModelRetriever,
         pairModelRetriever: pairModelRetriever,
-        exhangeRateRequestPerformer: MockExchangeRateRequestPerformer()
+        exhangeRateRequestPerformer: MockExchangeRateRequestPerformer(),
+        reachabilityMonitor: MockReachabilityMonitor()
     )
     
     override func setUp() {
