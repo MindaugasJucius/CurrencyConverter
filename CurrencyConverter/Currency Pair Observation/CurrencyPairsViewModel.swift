@@ -7,31 +7,37 @@
 
 import Foundation
 
-protocol CurrencyPairsViewModelInputs {
+enum PairsViewState {
     
+    case noPairs
+    case pairsWithExchangeRate([CurrencyPairExchangeRate])
+    case error(Error)
+
 }
 
-protocol CurrencyPairsViewModelOutputs {
+protocol CurrencyPairsViewModelViewInputs: class {
+
+    var observeStateChanged: ((PairsViewState) -> ())? { get set }
+    var exchangeRatesChanged: (([CurrencyPairExchangeRate]) -> ())? { get set }
+    
+    func delete(pair: CurrencyPairExchangeRate) throws
+    func beginRequestingExchangeRates()
     
 }
 
 struct CurrencyPairExchangeRate: Equatable, Hashable {
+    
     let currencyPair: CurrencyPair
     let exchangeRate: Double?
+    
 }
 
-class CurrencyPairsViewModel {
-    
-    enum State {
-        case noPairs
-        case pairsWithExchangeRate([CurrencyPairExchangeRate])
-        case error(Error)
-    }
+class CurrencyPairsViewModel: CurrencyPairsViewModelViewInputs {
     
     private let exhangeRatesRequestTimeInterval: TimeInterval = 1
     private var exchangeRatesTimer: Timer?
     
-    var observeStateChange: ((State) -> ())? {
+    var observeStateChanged: ((PairsViewState) -> ())? {
         didSet {
             pairsChanged()
         }
@@ -75,25 +81,25 @@ class CurrencyPairsViewModel {
         exchangeRatesTimer?.fire()
     }
     
-    func stopRequestingExchangeRates() {
-        exchangeRatesTimer?.invalidate()
-    }
-    
-    func delete(pair: CurrencyPair) throws {
-        try pairModelModifier.delete(currencyPair: pair)
+    func delete(pair: CurrencyPairExchangeRate) throws {
+        try pairModelModifier.delete(currencyPair: pair.currencyPair)
         pairsChanged()
     }
     
     func pairsChanged() {
         do {
             storedPairs = try pairModelRetriever.storedCurrencyPairs()
-            observeStateChange?(constructState())
+            observeStateChanged?(constructState())
         } catch let error {
-            observeStateChange?(.error(error))
+            observeStateChanged?(.error(error))
         }
     }
+    
+    private func stopRequestingExchangeRates() {
+        exchangeRatesTimer?.invalidate()
+    }
 
-    private func constructState() -> State {
+    private func constructState() -> PairsViewState {
         if !storedPairs.isEmpty {
             let constructedPairs = constructCurrencyPairsWithExchangeRates(pairExchangeRates: pairExchangeRates)
             return .pairsWithExchangeRate(constructedPairs)
@@ -116,7 +122,7 @@ class CurrencyPairsViewModel {
             let exchangeRates = self.constructCurrencyPairsWithExchangeRates(pairExchangeRates: pairExchangeRates)
             self.exchangeRatesChanged?(exchangeRates)
         case .failure(let error):
-            self.observeStateChange?(.error(error))
+            self.observeStateChanged?(.error(error))
         }
     }
     

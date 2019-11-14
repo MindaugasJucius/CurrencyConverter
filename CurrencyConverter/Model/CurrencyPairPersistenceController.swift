@@ -1,10 +1,12 @@
 import Foundation
 
 protocol CurrencyPairPersisting {
+    
     func store(currencyPair: CurrencyPair) throws
     func delete(currencyPair: CurrencyPair) throws
     
     func storedCurrencyPairs() throws -> [CurrencyPair]
+
 }
 
 class CurrencyPairPersistenceController: CurrencyPairPersisting {

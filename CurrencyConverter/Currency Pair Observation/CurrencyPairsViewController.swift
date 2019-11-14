@@ -70,10 +70,10 @@ class CurrencyPairsViewController: UIViewController {
         )
     }()
     
-    private let viewModel: CurrencyPairsViewModel
+    private let viewModel: CurrencyPairsViewModelViewInputs
     private let selectedCreatePair: () -> ()
     
-    init(viewModel: CurrencyPairsViewModel, selectedCreatePair: @autoclosure @escaping () -> ()) {
+    init(viewModel: CurrencyPairsViewModelViewInputs, selectedCreatePair: @autoclosure @escaping () -> ()) {
         self.viewModel = viewModel
         self.selectedCreatePair = selectedCreatePair
         super.init(nibName: nil, bundle: nil)
@@ -92,7 +92,7 @@ class CurrencyPairsViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        viewModel.observeStateChange = { [unowned self] state in
+        viewModel.observeStateChanged = { [unowned self] state in
             self.update(to: state)
         }
         
@@ -121,7 +121,7 @@ class CurrencyPairsViewController: UIViewController {
         tableView.backgroundColor = .clear
     }
     
-    private func update(to state: CurrencyPairsViewModel.State) {
+    private func update(to state: PairsViewState) {
         switch state {
         case .pairsWithExchangeRate(let pairsWithExchangeRate):
             applySnapshot(pairs: pairsWithExchangeRate)
@@ -138,7 +138,7 @@ class CurrencyPairsViewController: UIViewController {
             return
         }
         
-        try! viewModel.delete(pair: pair.currencyPair)
+        try! viewModel.delete(pair: pair)
     }
     
     private func applySnapshot(pairs: [CurrencyPairExchangeRate]) {
