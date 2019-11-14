@@ -28,7 +28,7 @@ class CurrencyPairsViewModel {
     
     enum State {
         case noPairs
-        case pairs([CurrencyPairExchangeRate])
+        case pairsWithExchangeRate([CurrencyPairExchangeRate])
         case error(Error)
     }
     
@@ -70,7 +70,7 @@ class CurrencyPairsViewModel {
                             self?.pairsChanged()
                         }
                     case .failure(let error):
-                        print("")
+                        self?.observeStateChange?(.error(error))
                     }
                 })
             }
@@ -101,7 +101,7 @@ class CurrencyPairsViewModel {
                 let exchangeRate = self.pairExchangeRates[pair]
                 return CurrencyPairExchangeRate.init(currencyPair: pair, exchangeRate: exchangeRate)
             }
-            return .pairs(pairExchangeRates)
+            return .pairsWithExchangeRate(pairExchangeRates)
         } else {
             return .noPairs
         }

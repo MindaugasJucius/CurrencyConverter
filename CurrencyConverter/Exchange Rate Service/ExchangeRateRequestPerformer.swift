@@ -10,11 +10,9 @@ import Foundation
 protocol ExchangeRateRequestPerforming {
     
     func exchangeRates(for pairs: [CurrencyPair],
-                       completion: @escaping (ExchangeRatesResult) -> ())
+                       completion: @escaping (Result<[CurrencyPair: Double], Error>) -> ())
     
 }
-
-typealias ExchangeRatesResult = Result<[CurrencyPair: Double], Error>
 
 class ExchangeRateRequestPerformer: ExchangeRateRequestPerforming {
 
@@ -31,7 +29,7 @@ class ExchangeRateRequestPerformer: ExchangeRateRequestPerforming {
     private var dataTask: URLSessionDataTask?
     
     func exchangeRates(for pairs: [CurrencyPair],
-                       completion: @escaping (ExchangeRatesResult) -> ()) {
+                       completion: @escaping (Result<[CurrencyPair: Double], Error>) -> ()) {
         do {
             let components = try constructComponents(from: pairs)
             guard let url = components.url else {
@@ -59,7 +57,7 @@ class ExchangeRateRequestPerformer: ExchangeRateRequestPerforming {
         }
     }
     
-    private func handleResponse(for pairs: [CurrencyPair], requestData data: Data?, response: URLResponse?, error: Error?) -> ExchangeRatesResult {
+    private func handleResponse(for pairs: [CurrencyPair], requestData data: Data?, response: URLResponse?, error: Error?) -> Result<[CurrencyPair: Double], Error> {
         if let error = error {
             return .failure(error)
         }

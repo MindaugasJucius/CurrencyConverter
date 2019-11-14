@@ -114,8 +114,8 @@ class CurrencyPairsViewController: UIViewController {
     
     private func update(to state: CurrencyPairsViewModel.State) {
         switch state {
-        case .pairs(let pairs):
-            applySnapshot(pairs: pairs)
+        case .pairsWithExchangeRate(let pairsWithExchangeRate):
+            applySnapshot(pairs: pairsWithExchangeRate)
         case .noPairs:
             applySnapshot(pairs: [])
         case .error(let error):

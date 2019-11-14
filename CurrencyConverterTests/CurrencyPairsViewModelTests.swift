@@ -38,8 +38,8 @@ class CurrencyPairsViewModelTests: XCTestCase {
         let expectation = XCTestExpectation(description: "new pair is in state")
         
         let observer: (CurrencyPairsViewModel.State) -> () = { state in
-            if case let CurrencyPairsViewModel.State.pairs(pairs) = state {
-                XCTAssertTrue(pairs.contains(TestCurrencyPairs.mockPairToCreate))
+            if case let CurrencyPairsViewModel.State.pairsWithExchangeRate(pairs) = state {
+                XCTAssertTrue(pairs.map{ $0.currencyPair }.contains(TestCurrencyPairs.mockPairToCreate))
                 expectation.fulfill()
             }
         }
@@ -61,8 +61,8 @@ class CurrencyPairsViewModelTests: XCTestCase {
         pairModelRetriever.pairsToReturn = mockPairs
         viewModel.observeStateChange = { state in
             switch state {
-            case .pairs(let pairs):
-                XCTAssertEqual(pairs, mockPairs)
+            case .pairsWithExchangeRate(let pairs):
+                XCTAssertEqual(pairs.map { $0.currencyPair }, mockPairs)
                 expectation.fulfill()
             default:
                 XCTFail("bad state")
@@ -86,11 +86,12 @@ class CurrencyPairsViewModelTests: XCTestCase {
         
         viewModel.observeStateChange = { state in
             switch state {
-            case .pairs(let pairs):
+            case .pairsWithExchangeRate(let pairs):
+                let currencyPairs = pairs.map { $0.currencyPair }
                 if fulfillmentCount == 0 {
-                    XCTAssertEqual(pairs, mockPairs)
+                    XCTAssertEqual(currencyPairs, mockPairs)
                 } else if fulfillmentCount == 1 {
-                    XCTAssertEqual(pairs, pairsPlusNewlyCreated)
+                    XCTAssertEqual(currencyPairs, pairsPlusNewlyCreated)
                 }
                 expectation.fulfill()
                 fulfillmentCount += 1
@@ -114,8 +115,9 @@ class CurrencyPairsViewModelTests: XCTestCase {
         let mockPairs = remainingAfterDeletion + [pairToDelete]
         
         viewModel.observeStateChange = { state in
-            if case let CurrencyPairsViewModel.State.pairs(pairs) = state {
-                XCTAssertEqual(pairs, remainingAfterDeletion)
+            if case let CurrencyPairsViewModel.State.pairsWithExchangeRate(pairs) = state {
+                let currencyPairs = pairs.map { $0.currencyPair }
+                XCTAssertEqual(currencyPairs, remainingAfterDeletion)
                 expectation.fulfill()
             }
         }
