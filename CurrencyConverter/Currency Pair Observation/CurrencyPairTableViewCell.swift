@@ -12,27 +12,43 @@ class CurrencyPairTableViewCell: UITableViewCell {
     @IBOutlet private weak var baseCurrencyLabel: UILabel!
     @IBOutlet private weak var targetCurrencyLabel: UILabel!
     
+    private let amountFont = UIFont.systemFont(ofSize: 20, weight: .medium)
+    private let identifierFont = UIFont.systemFont(ofSize: 15, weight: .medium)
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        baseCurrencyLabel.font = .systemFont(ofSize: 20, weight: .medium)
-        targetCurrencyLabel.font = .systemFont(ofSize: 20, weight: .medium)
         selectionStyle = .none
     }
     
     func update(currencyPairExchangeRate: CurrencyPairExchangeRate) {
-        baseCurrencyLabel.text = currencyPairExchangeRate.currencyPair.baseCurrency.identifier
-        targetCurrencyLabel.attributedText = constructTargetCurrencyLabel(
-            targetCurrency: currencyPairExchangeRate.currencyPair.conversionTargetCurrency,
-            exchangeRate: currencyPairExchangeRate.exchangeRate
+        baseCurrencyLabel.attributedText = attributedLabel(
+            forCurrency: currencyPairExchangeRate.currencyPair.baseCurrency,
+            amount: 1
+        )
+                
+        targetCurrencyLabel.attributedText = attributedLabel(
+            forCurrency: currencyPairExchangeRate.currencyPair.conversionTargetCurrency,
+            amount: currencyPairExchangeRate.exchangeRate
         )
     }
-    
-    private func constructTargetCurrencyLabel(targetCurrency: Currency, exchangeRate: Double?) -> NSAttributedString {
-        guard let exchangeRate = exchangeRate else {
-            return NSAttributedString.init(string: targetCurrency.identifier)
+        
+    private func attributedLabel(forCurrency currency: Currency, amount: Double?) -> NSAttributedString {
+        let mutableAttributedString = NSMutableAttributedString()
+        if let amount = amount {
+            let amountAttributedString = NSAttributedString(
+                string: String(amount),
+                attributes: [.font: amountFont, .foregroundColor: UIColor.label]
+            )
+            mutableAttributedString.append(amountAttributedString)
         }
-        let targetCurrencyInfoString = String(format: "%@ %@", String(exchangeRate), targetCurrency.identifier)
-        return NSAttributedString.init(string: targetCurrencyInfoString)
+        
+        let identifierAttributedString = NSAttributedString(
+            string: currency.identifier,
+            attributes: [.font: identifierFont, .foregroundColor: UIColor.secondaryLabel]
+        )
+        mutableAttributedString.append(identifierAttributedString)
+        
+        return mutableAttributedString
     }
     
 }
