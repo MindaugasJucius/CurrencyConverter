@@ -21,7 +21,6 @@ protocol CurrencyPairsViewModelViewInputs: class {
     var exchangeRatesChanged: (([CurrencyPairExchangeRate]) -> ())? { get set }
     
     func delete(pair: CurrencyPairExchangeRate) throws
-    func beginRequestingExchangeRates()
     
 }
 
@@ -64,7 +63,7 @@ class CurrencyPairsViewModel: CurrencyPairsViewModelViewInputs {
         beginObservingNetworkChanges()
     }
     
-    func beginRequestingExchangeRates() {
+    private func beginRequestingExchangeRates() {
         guard exchangeRatesTimer == nil else {
             return
         }
@@ -103,8 +102,20 @@ class CurrencyPairsViewModel: CurrencyPairsViewModelViewInputs {
         }
     }
     
+    private func beginObservingNetworkChanges() {
+        reachabilityMonitor.networkReachabilityChanged = { [weak self] reachable in
+            if reachable {
+                self?.beginRequestingExchangeRates()
+            } else {
+                self?.stopRequestingExchangeRates()
+            }
+        }
+        reachabilityMonitor.startObserving()
+    }
+    
     private func stopRequestingExchangeRates() {
         exchangeRatesTimer?.invalidate()
+        exchangeRatesTimer = nil
     }
 
     private func constructState() -> PairsViewState {

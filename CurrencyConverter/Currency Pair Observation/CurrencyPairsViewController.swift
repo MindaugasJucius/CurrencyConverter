@@ -99,8 +99,6 @@ class CurrencyPairsViewController: UIViewController {
         viewModel.exchangeRatesChanged = { [unowned self] exchangeRates in
             self.updateExchangeRates(currencyPairExchangeRates: exchangeRates)
         }
-        
-        viewModel.beginRequestingExchangeRates()
     }
     
     private func configureTableView() {
