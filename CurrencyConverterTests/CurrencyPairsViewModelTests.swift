@@ -20,16 +20,16 @@ class CurrencyPairsViewModelTests: XCTestCase {
     
     override func setUp() {
         pairModelRetriever.pairsToReturn = []
-        viewModel.observeStateChange = nil
+        viewModel.observeStateChanged = nil
     }
     
     func testSettingObserveClosureInvokesWithState() {
         let expectation = XCTestExpectation(description: "change handler invoked")
-        let observer: (CurrencyPairsViewModel.State) -> () = { state in
+        let observer: (PairsViewState) -> () = { state in
             expectation.fulfill()
         }
         
-        viewModel.observeStateChange = observer
+        viewModel.observeStateChanged = observer
         
         wait(for: [expectation], timeout: 0.1)
     }
@@ -37,14 +37,14 @@ class CurrencyPairsViewModelTests: XCTestCase {
     func testAfterCreatingPairNewStateContainsPair() {
         let expectation = XCTestExpectation(description: "new pair is in state")
         
-        let observer: (CurrencyPairsViewModel.State) -> () = { state in
-            if case let CurrencyPairsViewModel.State.pairsWithExchangeRate(pairs) = state {
+        let observer: (PairsViewState) -> () = { state in
+            if case let PairsViewState.pairsWithExchangeRate(pairs) = state {
                 XCTAssertTrue(pairs.map{ $0.currencyPair }.contains(TestCurrencyPairs.mockPairToCreate))
                 expectation.fulfill()
             }
         }
         
-        viewModel.observeStateChange = observer
+        viewModel.observeStateChanged = observer
         pairModelRetriever.pairsToReturn = [TestCurrencyPairs.mockPairToCreate]
         viewModel.pairsChanged()
         
@@ -59,7 +59,7 @@ class CurrencyPairsViewModelTests: XCTestCase {
                          TestCurrencyPairs.mockPairToCreate2]
         
         pairModelRetriever.pairsToReturn = mockPairs
-        viewModel.observeStateChange = { state in
+        viewModel.observeStateChanged = { state in
             switch state {
             case .pairsWithExchangeRate(let pairs):
                 XCTAssertEqual(pairs.map { $0.currencyPair }, mockPairs)
@@ -84,7 +84,7 @@ class CurrencyPairsViewModelTests: XCTestCase {
         pairModelRetriever.pairsToReturn = mockPairs
         let pairsPlusNewlyCreated = mockPairs + [TestCurrencyPairs.mockPairToCreate3]
         
-        viewModel.observeStateChange = { state in
+        viewModel.observeStateChanged = { state in
             switch state {
             case .pairsWithExchangeRate(let pairs):
                 let currencyPairs = pairs.map { $0.currencyPair }
@@ -114,8 +114,8 @@ class CurrencyPairsViewModelTests: XCTestCase {
                                       TestCurrencyPairs.mockPairToCreate1]
         let mockPairs = remainingAfterDeletion + [pairToDelete]
         
-        viewModel.observeStateChange = { state in
-            if case let CurrencyPairsViewModel.State.pairsWithExchangeRate(pairs) = state {
+        viewModel.observeStateChanged = { state in
+            if case let PairsViewState.pairsWithExchangeRate(pairs) = state {
                 let currencyPairs = pairs.map { $0.currencyPair }
                 XCTAssertEqual(currencyPairs, remainingAfterDeletion)
                 expectation.fulfill()
@@ -123,8 +123,9 @@ class CurrencyPairsViewModelTests: XCTestCase {
         }
         
         pairModelRetriever.pairsToReturn = mockPairs
-        
-        XCTAssertNoThrow(try viewModel.delete(pair: pairToDelete))
+
+        let exchangeRatePair = CurrencyPairExchangeRate(currencyPair: pairToDelete, exchangeRate: nil)
+        XCTAssertNoThrow(try viewModel.delete(pair: exchangeRatePair))
 
         wait(for: [expectation], timeout: 0.1)
     }

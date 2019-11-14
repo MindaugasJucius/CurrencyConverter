@@ -23,7 +23,7 @@ class CurrencyPairsViewModelExchangeRatesTests: XCTestCase {
     override func setUp() {
         requestPerformer.ratesMethodInvoked = nil
         requestPerformer.returnOnCompletion = nil
-        viewModel.observeStateChange = nil
+        viewModel.observeStateChanged = nil
     }
     
     func testThatExchangeRequestPerformerIsCalledEverySecond() {
@@ -104,7 +104,7 @@ class CurrencyPairsViewModelExchangeRatesTests: XCTestCase {
         viewModel.pairsChanged()
         viewModel.beginRequestingExchangeRates()
         
-        viewModel.observeStateChange = { state in
+        viewModel.observeStateChanged = { state in
             switch state {
             case .pairsWithExchangeRate(let pairsWithExchangeRate):
                 if fulfillCount == 0 {
