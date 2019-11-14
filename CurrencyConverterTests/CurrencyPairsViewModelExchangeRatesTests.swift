@@ -61,9 +61,35 @@ class CurrencyPairsViewModelExchangeRatesTests: XCTestCase {
         wait(for: [expectation], timeout: 1.5)
     }
     
-    func testThatPairsViewModelConstructsStateWithExchangeRatesAfterObservationStart() {
+    func testThatPairsViewModelInvokesExchangeRatesCallbackAfterObservationStart() {
         let expectation = XCTestExpectation(
-            description: "pairs view model passes state with rates from exchange rates API"
+            description: "pairs view model invokes exchange rates callback with rates from exchange rates API"
+        )
+        
+        let requestPerformerResult = [
+            TestCurrencyPairs.mockPairToCreate: 0.5,
+            TestCurrencyPairs.mockPairToCreate1: 0.9
+        ]
+
+        requestPerformer.returnOnCompletion = requestPerformerResult
+        pairModelRetriever.pairsToReturn = Array(requestPerformerResult.keys)
+        viewModel.pairsChanged()
+        viewModel.beginRequestingExchangeRates()
+        
+        viewModel.exchangeRatesChanged = { pairsWithExchangeRate in
+            pairsWithExchangeRate.forEach { pairWithExchangeRate in
+                let exchangeRate = requestPerformerResult[pairWithExchangeRate.currencyPair]
+                XCTAssertEqual(exchangeRate, pairWithExchangeRate.exchangeRate)
+            }
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 1)
+    }
+    
+    func testThatPairsViewModelStateContainsExchangeRates() {
+        let expectation = XCTestExpectation(
+            description: "pairs view model state contains exchange rates"
         )
         expectation.expectedFulfillmentCount = 2
         var fulfillCount = 0
@@ -96,6 +122,11 @@ class CurrencyPairsViewModelExchangeRatesTests: XCTestCase {
             default:
                 XCTFail()
             }
+        }
+        
+        // Simulate that pair change has occurs later (insertion/deletion)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.viewModel.pairsChanged()
         }
 
         wait(for: [expectation], timeout: 1)

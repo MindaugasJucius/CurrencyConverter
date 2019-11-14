@@ -38,6 +38,8 @@ class CurrencyPairsViewModel {
         }
     }
     
+    var exchangeRatesChanged: (([CurrencyPairExchangeRate]) -> ())?
+    
     private var storedPairs: [CurrencyPair] = []
     private var pairExchangeRates: [CurrencyPair: Double] = [:]
     
@@ -56,20 +58,23 @@ class CurrencyPairsViewModel {
     func beginRequestingExchangeRates() {
         exchangeRatesTimer = Timer.scheduledTimer(
             withTimeInterval: exhangeRatesRequestTimeInterval, repeats: true,
-            block: { [weak self] _ in
-                guard let pairs = self?.storedPairs, !pairs.isEmpty else {
+            block: { [unowned self] _ in
+                guard !self.storedPairs.isEmpty else {
                     return
                 }
-                
-                self?.exhangeRateRequestPerformer.exchangeRates(for: pairs, completion: { result in
+                print("sending request for pairs: \(self.storedPairs.count)")
+                self.exhangeRateRequestPerformer.exchangeRates(for: self.storedPairs, completion: { result in
                     switch result {
                     case .success(let pairExchangeRates):
                         DispatchQueue.main.async {
-                            self?.pairExchangeRates = pairExchangeRates
-                            self?.pairsChanged()
+                            self.pairExchangeRates = pairExchangeRates
+                            let exchangeRates = self.constructCurrencyPairsWithExchangeRates(pairExchangeRates: pairExchangeRates)
+                            self.exchangeRatesChanged?(exchangeRates)
                         }
                     case .failure(let error):
-                        self?.observeStateChange?(.error(error))
+                        DispatchQueue.main.async {
+                            self.observeStateChange?(.error(error))
+                        }
                     }
                 })
             }
@@ -97,13 +102,17 @@ class CurrencyPairsViewModel {
 
     private func constructState() -> State {
         if !storedPairs.isEmpty {
-            let pairExchangeRates = storedPairs.map { pair -> CurrencyPairExchangeRate in
-                let exchangeRate = self.pairExchangeRates[pair]
-                return CurrencyPairExchangeRate(currencyPair: pair, exchangeRate: exchangeRate)
-            }
-            return .pairsWithExchangeRate(pairExchangeRates)
+            let constructedPairs = constructCurrencyPairsWithExchangeRates(pairExchangeRates: pairExchangeRates)
+            return .pairsWithExchangeRate(constructedPairs)
         } else {
             return .noPairs
+        }
+    }
+    
+    private func constructCurrencyPairsWithExchangeRates(pairExchangeRates: [CurrencyPair: Double]) -> [CurrencyPairExchangeRate] {
+        return storedPairs.map { pair -> CurrencyPairExchangeRate in
+            let exchangeRate = self.pairExchangeRates[pair]
+            return CurrencyPairExchangeRate(currencyPair: pair, exchangeRate: exchangeRate)
         }
     }
     
