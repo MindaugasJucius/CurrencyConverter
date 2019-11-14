@@ -61,4 +61,44 @@ class CurrencyPairsViewModelExchangeRatesTests: XCTestCase {
         wait(for: [expectation], timeout: 1.5)
     }
     
+    func testThatPairsViewModelConstructsStateWithExchangeRatesAfterObservationStart() {
+        let expectation = XCTestExpectation(
+            description: "pairs view model passes state with rates from exchange rates API"
+        )
+        expectation.expectedFulfillmentCount = 2
+        var fulfillCount = 0
+        
+        let requestPerformerResult = [
+            TestCurrencyPairs.mockPairToCreate: 0.5,
+            TestCurrencyPairs.mockPairToCreate1: 0.9
+        ]
+
+        requestPerformer.returnOnCompletion = requestPerformerResult
+        pairModelRetriever.pairsToReturn = Array(requestPerformerResult.keys)
+        viewModel.pairsChanged()
+        viewModel.beginRequestingExchangeRates()
+        
+        viewModel.observeStateChange = { state in
+            switch state {
+            case .pairsWithExchangeRate(let pairsWithExchangeRate):
+                if fulfillCount == 0 {
+                    XCTAssertEqual(pairsWithExchangeRate.map { $0.currencyPair },
+                                   self.pairModelRetriever.pairsToReturn)
+
+                } else {
+                    pairsWithExchangeRate.forEach { pairWithExchangeRate in
+                        let exchangeRate = requestPerformerResult[pairWithExchangeRate.currencyPair]
+                        XCTAssertEqual(exchangeRate, pairWithExchangeRate.exchangeRate)
+                    }
+                }
+                expectation.fulfill()
+                fulfillCount += 1
+            default:
+                XCTFail()
+            }
+        }
+
+        wait(for: [expectation], timeout: 1)
+    }
+    
 }

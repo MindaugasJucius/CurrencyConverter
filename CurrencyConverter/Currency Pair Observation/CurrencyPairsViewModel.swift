@@ -75,6 +75,7 @@ class CurrencyPairsViewModel {
                 })
             }
         )
+        exchangeRatesTimer?.fire()
     }
     
     func stopRequestingExchangeRates() {
