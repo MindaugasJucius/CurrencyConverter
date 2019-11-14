@@ -24,15 +24,18 @@ class CurrencyPairTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func update(pair: CurrencyPair, exchangeRate: Double) {
-        baseCurrencyLabel.text = pair.baseCurrency.identifier
+    func update(currencyPairExchangeRate: CurrencyPairExchangeRate) {
+        baseCurrencyLabel.text = currencyPairExchangeRate.currencyPair.baseCurrency.identifier
         targetCurrencyLabel.attributedText = constructTargetCurrencyLabel(
-            targetCurrency: pair.conversionTargetCurrency,
-            exchangeRate: exchangeRate
+            targetCurrency: currencyPairExchangeRate.currencyPair.conversionTargetCurrency,
+            exchangeRate: currencyPairExchangeRate.exchangeRate
         )
     }
     
-    private func constructTargetCurrencyLabel(targetCurrency: Currency, exchangeRate: Double) -> NSAttributedString {
+    private func constructTargetCurrencyLabel(targetCurrency: Currency, exchangeRate: Double?) -> NSAttributedString {
+        guard let exchangeRate = exchangeRate else {
+            return NSAttributedString.init(string: targetCurrency.identifier)
+        }
         return NSAttributedString.init(string: targetCurrency.identifier + "\(exchangeRate)")
     }
     

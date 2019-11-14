@@ -15,6 +15,11 @@ protocol CurrencyPairsViewModelOutputs {
     
 }
 
+struct CurrencyPairExchangeRate: Equatable, Hashable {
+    let currencyPair: CurrencyPair
+    let exchangeRate: Double?
+}
+
 class CurrencyPairsViewModel {
     
     private let exhangeRatesRequestTimeInterval: TimeInterval = 1
@@ -23,7 +28,7 @@ class CurrencyPairsViewModel {
     
     enum State {
         case noPairs
-        case pairs([CurrencyPair])
+        case pairs([CurrencyPairExchangeRate])
         case error(Error)
     }
     
@@ -35,6 +40,7 @@ class CurrencyPairsViewModel {
     }
     
     private var storedPairs: [CurrencyPair] = []
+    private var pairExchangeRates: [CurrencyPair: Double] = [:]
     
     let pairModelModifier: CurrencyPairModelModifying
     let pairModelRetriever: CurrencyPairModelRetrieving
@@ -57,7 +63,15 @@ class CurrencyPairsViewModel {
                 }
                 
                 self?.exhangeRateRequestPerformer.exchangeRates(for: pairs, completion: { result in
-                    print(result)
+                    switch result {
+                    case .success(let pairExchangeRates):
+                        DispatchQueue.main.async {
+                            self?.pairExchangeRates = pairExchangeRates
+                            self?.pairsChanged()
+                        }
+                    case .failure(let error):
+                        print("")
+                    }
                 })
             }
         )
@@ -74,7 +88,7 @@ class CurrencyPairsViewModel {
     
     func pairsChanged() {
         do {
-            self.storedPairs = try pairModelRetriever.storedCurrencyPairs()
+            storedPairs = try pairModelRetriever.storedCurrencyPairs()
             observeStateChange?(constructState())
         } catch let error {
             observeStateChange?(.error(error))
@@ -83,7 +97,11 @@ class CurrencyPairsViewModel {
 
     private func constructState() -> State {
         if !storedPairs.isEmpty {
-            return .pairs(storedPairs)
+            let pairExchangeRates = storedPairs.map { pair -> CurrencyPairExchangeRate in
+                let exchangeRate = self.pairExchangeRates[pair]
+                return CurrencyPairExchangeRate.init(currencyPair: pair, exchangeRate: exchangeRate)
+            }
+            return .pairs(pairExchangeRates)
         } else {
             return .noPairs
         }

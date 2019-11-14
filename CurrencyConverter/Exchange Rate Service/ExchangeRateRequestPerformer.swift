@@ -14,7 +14,7 @@ protocol ExchangeRateRequestPerforming {
     
 }
 
-typealias ExchangeRatesResult = Result<[(CurrencyPair, Double)], Error>
+typealias ExchangeRatesResult = Result<[CurrencyPair: Double], Error>
 
 class ExchangeRateRequestPerformer: ExchangeRateRequestPerforming {
 
@@ -82,13 +82,18 @@ class ExchangeRateRequestPerformer: ExchangeRateRequestPerforming {
         }
     }
     
-    private func assignExchangeRatesToPairs(pairs: [CurrencyPair], requestResult: Dictionary<String, Double>) -> [(CurrencyPair, Double)] {
-        return pairs.compactMap { pair in
+    private func assignExchangeRatesToPairs(pairs: [CurrencyPair], requestResult: Dictionary<String, Double>) -> [CurrencyPair: Double] {
+        
+        var pairExchangeRates: [CurrencyPair: Double] = [:]
+        
+        pairs.forEach { pair in
             guard let currencyPairExchangeRate = requestResult[pair.queryParameter] else {
-                return nil
+                return
             }
-            return (pair, currencyPairExchangeRate)
+            pairExchangeRates[pair] = currencyPairExchangeRate
         }
+        
+        return pairExchangeRates
     }
     
     private func constructComponents(from pairs: [CurrencyPair]) throws -> URLComponents {

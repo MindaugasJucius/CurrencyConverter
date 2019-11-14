@@ -25,7 +25,7 @@ class CurrencyPairsViewController: UIViewController {
     
     enum SectionItem: Hashable {
 
-        case pair(CurrencyPair)
+        case pair(CurrencyPairExchangeRate)
         case compactAddPair
         case expandedAddPair
         
@@ -41,7 +41,11 @@ class CurrencyPairsViewController: UIViewController {
                         withIdentifier: self.currencyPairCell,
                         for: indexPath
                     )
-                    return cell
+                    guard let currencyPairCell = cell as? CurrencyPairTableViewCell else {
+                        return cell
+                    }
+                    currencyPairCell.update(currencyPairExchangeRate: pair)
+                    return currencyPairCell
                 case .compactAddPair:
                     let cell = tableView.dequeueReusableCell(
                         withIdentifier: self.compactAddPairCell,
@@ -125,10 +129,10 @@ class CurrencyPairsViewController: UIViewController {
             return
         }
         
-        try! viewModel.delete(pair: pair)
+        try! viewModel.delete(pair: pair.currencyPair)
     }
     
-    private func applySnapshot(pairs: [CurrencyPair]) {
+    private func applySnapshot(pairs: [CurrencyPairExchangeRate]) {
         var snapshot = NSDiffableDataSourceSnapshot<String, SectionItem>.init()
         if pairs.isEmpty {
             snapshot.appendSections(["add pair expanded"])
