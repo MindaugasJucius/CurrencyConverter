@@ -51,16 +51,24 @@ class CurrencyPairsViewModel: CurrencyPairsViewModelViewInputs {
     let pairModelModifier: CurrencyPairModelModifying
     let pairModelRetriever: CurrencyPairModelRetrieving
     let exhangeRateRequestPerformer: ExchangeRateRequestPerforming
+    let reachabilityMonitor: ReachabilityMonitoring
     
     init(pairModelModifier: CurrencyPairModelModifying,
          pairModelRetriever: CurrencyPairModelRetrieving,
-         exhangeRateRequestPerformer: ExchangeRateRequestPerforming) {
+         exhangeRateRequestPerformer: ExchangeRateRequestPerforming,
+         reachabilityMonitor: ReachabilityMonitoring) {
         self.pairModelModifier = pairModelModifier
         self.pairModelRetriever = pairModelRetriever
         self.exhangeRateRequestPerformer = exhangeRateRequestPerformer
+        self.reachabilityMonitor = reachabilityMonitor
+        beginObservingNetworkChanges()
     }
     
     func beginRequestingExchangeRates() {
+        guard exchangeRatesTimer == nil else {
+            return
+        }
+        
         exchangeRatesTimer = Timer.scheduledTimer(
             withTimeInterval: exhangeRatesRequestTimeInterval, repeats: true,
             block: { [unowned self] _ in
