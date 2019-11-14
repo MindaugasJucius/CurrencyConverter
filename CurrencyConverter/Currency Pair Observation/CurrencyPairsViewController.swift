@@ -26,8 +26,8 @@ class CurrencyPairsViewController: UIViewController {
     
     enum Section: CaseIterable, Hashable {
 
-        case pairs
         case addPair
+        case pairs
         
         enum Item: Hashable {
             case pair(CurrencyPairExchangeRate)
@@ -95,6 +95,11 @@ class CurrencyPairsViewController: UIViewController {
         viewModel.observeStateChange = { [unowned self] state in
             self.update(to: state)
         }
+        
+        viewModel.exchangeRatesChanged = { [unowned self] exchangeRates in
+            self.updateExchangeRates(currencyPairExchangeRates: exchangeRates)
+        }
+        
         viewModel.beginRequestingExchangeRates()
     }
     
@@ -111,7 +116,6 @@ class CurrencyPairsViewController: UIViewController {
         let addPairExpandedCellNib = UINib(nibName: expandedAddPairCell, bundle: nil)
         tableView.register(addPairExpandedCellNib,
                            forCellReuseIdentifier: expandedAddPairCell)
-
         dataSource.defaultRowAnimation = .fade
         tableView.dataSource = dataSource
         tableView.delegate = self
@@ -150,6 +154,27 @@ class CurrencyPairsViewController: UIViewController {
         }
 
         dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
+    }
+    
+    private func updateExchangeRates(currencyPairExchangeRates: [CurrencyPairExchangeRate]) {
+        let itemsInPairsSection = dataSource.snapshot().itemIdentifiers(inSection: .pairs)
+        itemsInPairsSection.forEach { item in
+            guard let indexPath = dataSource.indexPath(for: item),
+                let pairCell = tableView.cellForRow(at: indexPath) as? CurrencyPairTableViewCell,
+                case let Section.Item.pair(pair) = item else {
+                return
+            }
+            
+            let matchingNewExchangeRatePairs = currencyPairExchangeRates.filter {
+                $0.currencyPair == pair.currencyPair
+            }
+
+            guard let matchingPair = matchingNewExchangeRatePairs.first else {
+                return
+            }
+            
+            pairCell.update(currencyPairExchangeRate: matchingPair)
+        }
     }
 
 }
