@@ -32,7 +32,6 @@ class CurrencyPairsViewModel {
         case error(Error)
     }
     
-    // Output
     var observeStateChange: ((State) -> ())? {
         didSet {
             pairsChanged()
@@ -57,7 +56,7 @@ class CurrencyPairsViewModel {
     func beginRequestingExchangeRates() {
         exchangeRatesTimer = Timer.scheduledTimer(
             withTimeInterval: exhangeRatesRequestTimeInterval, repeats: true,
-            block: { [weak self] timer in
+            block: { [weak self] _ in
                 guard let pairs = self?.storedPairs, !pairs.isEmpty else {
                     return
                 }
@@ -100,7 +99,7 @@ class CurrencyPairsViewModel {
         if !storedPairs.isEmpty {
             let pairExchangeRates = storedPairs.map { pair -> CurrencyPairExchangeRate in
                 let exchangeRate = self.pairExchangeRates[pair]
-                return CurrencyPairExchangeRate.init(currencyPair: pair, exchangeRate: exchangeRate)
+                return CurrencyPairExchangeRate(currencyPair: pair, exchangeRate: exchangeRate)
             }
             return .pairsWithExchangeRate(pairExchangeRates)
         } else {

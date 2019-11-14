@@ -16,12 +16,7 @@ class CurrencyPairTableViewCell: UITableViewCell {
         super.awakeFromNib()
         baseCurrencyLabel.font = .systemFont(ofSize: 20, weight: .medium)
         targetCurrencyLabel.font = .systemFont(ofSize: 20, weight: .medium)
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+        selectionStyle = .none
     }
     
     func update(currencyPairExchangeRate: CurrencyPairExchangeRate) {
@@ -36,7 +31,8 @@ class CurrencyPairTableViewCell: UITableViewCell {
         guard let exchangeRate = exchangeRate else {
             return NSAttributedString.init(string: targetCurrency.identifier)
         }
-        return NSAttributedString.init(string: targetCurrency.identifier + "\(exchangeRate)")
+        let targetCurrencyInfoString = String(format: "%@ %@", String(exchangeRate), targetCurrency.identifier)
+        return NSAttributedString.init(string: targetCurrencyInfoString)
     }
     
 }

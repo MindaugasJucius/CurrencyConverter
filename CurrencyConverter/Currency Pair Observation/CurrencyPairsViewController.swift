@@ -13,6 +13,7 @@ class EditableDataSource<U: Hashable, T: Hashable>: UITableViewDiffableDataSourc
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
+    
 }
 
 class CurrencyPairsViewController: UIViewController {
@@ -23,15 +24,20 @@ class CurrencyPairsViewController: UIViewController {
     let compactAddPairCell = "AddPairTableViewCell"
     let currencyPairCell = "CurrencyPairTableViewCell"
     
-    enum SectionItem: Hashable {
+    enum Section: CaseIterable, Hashable {
 
-        case pair(CurrencyPairExchangeRate)
-        case compactAddPair
-        case expandedAddPair
+        case pairs
+        case addPair
         
+        enum Item: Hashable {
+            case pair(CurrencyPairExchangeRate)
+            case compactAddPair
+            case expandedAddPair
+        }
+
     }
     
-    private lazy var dataSource: EditableDataSource<String, SectionItem> = {
+    private lazy var dataSource: EditableDataSource<Section, Section.Item> = {
         return EditableDataSource(
             tableView: tableView,
             cellProvider: { tableView, indexPath, sectionItem in
@@ -125,7 +131,7 @@ class CurrencyPairsViewController: UIViewController {
 
     private func deletePair(at indexPath: IndexPath) {
         guard let item = dataSource.itemIdentifier(for: indexPath),
-            case let SectionItem.pair(pair) = item else {
+            case let Section.Item.pair(pair) = item else {
             return
         }
         
@@ -133,15 +139,14 @@ class CurrencyPairsViewController: UIViewController {
     }
     
     private func applySnapshot(pairs: [CurrencyPairExchangeRate]) {
-        var snapshot = NSDiffableDataSourceSnapshot<String, SectionItem>.init()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Section.Item>.init()
         if pairs.isEmpty {
-            snapshot.appendSections(["add pair expanded"])
+            snapshot.appendSections([.addPair])
             snapshot.appendItems([.expandedAddPair])
         } else {
-            snapshot.appendSections(["add pair"])
-            snapshot.appendItems([.compactAddPair])
-            snapshot.appendSections(["currency pairs"])
-            snapshot.appendItems(pairs.map { SectionItem.pair($0) })
+            snapshot.appendSections(Section.allCases)
+            snapshot.appendItems([.compactAddPair], toSection: .addPair)
+            snapshot.appendItems(pairs.map { Section.Item.pair($0) }, toSection: .pairs)
         }
 
         dataSource.apply(snapshot, animatingDifferences: true, completion: nil)
@@ -180,7 +185,7 @@ extension CurrencyPairsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         guard let sectionItem = dataSource.itemIdentifier(for: indexPath),
-            case SectionItem.pair = sectionItem else {
+            case Section.Item.pair = sectionItem else {
             return .none
         }
 
