@@ -22,15 +22,14 @@ struct CurrencyPairExchangeRate: Equatable, Hashable {
 
 class CurrencyPairsViewModel {
     
-    private let exhangeRatesRequestTimeInterval: TimeInterval = 1
-    
-    private var exchangeRatesTimer: Timer?
-    
     enum State {
         case noPairs
         case pairsWithExchangeRate([CurrencyPairExchangeRate])
         case error(Error)
     }
+    
+    private let exhangeRatesRequestTimeInterval: TimeInterval = 1
+    private var exchangeRatesTimer: Timer?
     
     var observeStateChange: ((State) -> ())? {
         didSet {
@@ -62,21 +61,15 @@ class CurrencyPairsViewModel {
                 guard !self.storedPairs.isEmpty else {
                     return
                 }
-                print("sending request for pairs: \(self.storedPairs.count)")
-                self.exhangeRateRequestPerformer.exchangeRates(for: self.storedPairs, completion: { result in
-                    switch result {
-                    case .success(let pairExchangeRates):
+                
+                self.exhangeRateRequestPerformer.exchangeRates(
+                    for: self.storedPairs,
+                    completion: { result in
                         DispatchQueue.main.async {
-                            self.pairExchangeRates = pairExchangeRates
-                            let exchangeRates = self.constructCurrencyPairsWithExchangeRates(pairExchangeRates: pairExchangeRates)
-                            self.exchangeRatesChanged?(exchangeRates)
-                        }
-                    case .failure(let error):
-                        DispatchQueue.main.async {
-                            self.observeStateChange?(.error(error))
+                            self.handle(exchangeRatesResult: result)
                         }
                     }
-                })
+                )
             }
         )
         exchangeRatesTimer?.fire()
@@ -113,6 +106,17 @@ class CurrencyPairsViewModel {
         return storedPairs.map { pair -> CurrencyPairExchangeRate in
             let exchangeRate = self.pairExchangeRates[pair]
             return CurrencyPairExchangeRate(currencyPair: pair, exchangeRate: exchangeRate)
+        }
+    }
+    
+    private func handle(exchangeRatesResult: Result<[CurrencyPair: Double], Error>) {
+        switch exchangeRatesResult {
+        case .success(let pairExchangeRates):
+            self.pairExchangeRates = pairExchangeRates
+            let exchangeRates = self.constructCurrencyPairsWithExchangeRates(pairExchangeRates: pairExchangeRates)
+            self.exchangeRatesChanged?(exchangeRates)
+        case .failure(let error):
+            self.observeStateChange?(.error(error))
         }
     }
     

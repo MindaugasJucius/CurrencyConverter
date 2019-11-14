@@ -104,7 +104,6 @@ class CurrencyPairsViewController: UIViewController {
     }
     
     private func configureTableView() {
-
         let pairCellNib = UINib(nibName: String(describing: CurrencyPairTableViewCell.self), bundle: nil)
         tableView.register(pairCellNib,
                            forCellReuseIdentifier: currencyPairCell)
